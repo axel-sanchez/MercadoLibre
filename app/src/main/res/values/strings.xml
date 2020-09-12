@@ -2,4 +2,5 @@
     <string name="app_name">MercadoLibre</string>
     <string name="busqueda">Buscar en Mercado Libre</string>
     <string name="sin_productos">No se encontraron productos vinculados a su búsqueda.</string>
+    <string name="free_shipping">Envio Gratis</string>
 </resources>

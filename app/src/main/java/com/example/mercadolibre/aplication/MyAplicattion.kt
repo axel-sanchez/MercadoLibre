@@ -1,4 +1,4 @@
-package com.example.mercadolibre
+package com.example.mercadolibre.aplication
 
 import android.app.Application
 import com.example.mercadolibre.di.moduleApp

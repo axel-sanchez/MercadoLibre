@@ -13,6 +13,7 @@ import com.example.mercadolibre.data.models.search.Result
 import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.ui.adapter.ResultAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
+import com.example.mercadolibre.ui.interfaces.INavigationHost
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModelFactory
 import kotlinx.coroutines.launch
@@ -100,7 +101,11 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun itemClick(result: Result?) {
-
+        result?.let{
+            it.realPrice = it.price.toFloat()
+            it.realOriginalPrice = it.original_price?.let { it.toFloat() }?:0.0f
+            (activity as INavigationHost).replaceTo(DetailsFragment.newInstance(it), true)
+        }
     }
 
     override fun onDestroyView() {
