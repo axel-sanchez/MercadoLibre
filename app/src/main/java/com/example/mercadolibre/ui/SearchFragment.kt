@@ -29,10 +29,7 @@ class SearchFragment : BaseFragment() {
 
     private val viewModelFactory: SearchViewModelFactory by inject()
     private val viewModel: SearchViewModel by lazy {
-        ViewModelProviders.of(
-            requireActivity(),
-            viewModelFactory
-        ).get(SearchViewModel::class.java)
+        ViewModelProviders.of(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
     }
 
     private lateinit var query: String
@@ -43,11 +40,7 @@ class SearchFragment : BaseFragment() {
     private lateinit var viewAdapter: ResultAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentSearchBinding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -101,9 +94,9 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun itemClick(result: Result?) {
-        result?.let{
+        result?.let {
             it.realPrice = it.price.toFloat()
-            it.realOriginalPrice = it.original_price?.let { it.toFloat() }?:0.0f
+            it.realOriginalPrice = it.original_price?.let { it.toFloat() } ?: 0.0f
             (activity as INavigationHost).replaceTo(DetailsFragment.newInstance(it), true)
         }
     }
@@ -117,11 +110,10 @@ class SearchFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(query: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_QUERY, query)
-                }
+        fun newInstance(query: String) = SearchFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_QUERY, query)
             }
+        }
     }
 }
