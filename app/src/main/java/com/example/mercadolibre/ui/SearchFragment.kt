@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -57,6 +58,7 @@ class SearchFragment : BaseFragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
@@ -68,14 +70,19 @@ class SearchFragment : BaseFragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setUpObserver() {
         val myObserver = Observer<List<Producto?>?> {
-            it?.let { Productos ->
+            it?.let { productos ->
                 binding.progress.cancelAnimation()
                 binding.progress.showView(false)
-                if (Productos.isNotEmpty()) {
+                if (productos.isNotEmpty()) {
                     binding.emptyState.showView(false)
                     binding.recyclerview.showView(true)
-                    setAdapter(Productos)
+                    setAdapter(productos)
                 } else binding.emptyState.showView(true)
+            }?: kotlin.run {
+                binding.progress.cancelAnimation()
+                binding.progress.showView(false)
+                binding.emptyState.showView(true)
+                Toast.makeText(requireContext(), "Falló la búsqueda", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.getSearchLiveData()

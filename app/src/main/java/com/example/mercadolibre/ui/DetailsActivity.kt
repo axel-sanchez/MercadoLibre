@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.data.models.MyResponse.Producto
-import com.example.mercadolibre.databinding.FragmentDetailsBinding
+import com.example.mercadolibre.databinding.ActivityDetailsBinding
 import com.example.mercadolibre.viewmodel.DetailsViewModel
 import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ const val ARG_ID_PRODUCTO = "id_producto"
 class DetailsActivity: AppCompatActivity() {
 
     var idProducto = ""
-    private lateinit var binding: FragmentDetailsBinding
+    private lateinit var binding: ActivityDetailsBinding
 
     private val viewModelFactory: DetailsViewModelFactory by inject()
     private val viewModel: DetailsViewModel by lazy {
@@ -37,7 +37,7 @@ class DetailsActivity: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FragmentDetailsBinding.inflate(layoutInflater)
+        binding = ActivityDetailsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
