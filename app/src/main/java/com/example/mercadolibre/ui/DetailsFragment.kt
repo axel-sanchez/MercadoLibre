@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.data.models.MyResponse.Producto
-import com.example.mercadolibre.data.room.Database
 import com.example.mercadolibre.databinding.FragmentDetailsBinding
 import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.viewmodel.DetailsViewModel
@@ -118,13 +117,14 @@ class DetailsFragment : BaseFragment() {
                 }
 
                 it.seller_address?.let { address ->
-                    var adressSeller = ""
+                    var addressSeller = ""
                     address.city?.let { city -> city.name }
-                        ?.let { name -> adressSeller += name }
+                        ?.let { name -> addressSeller += name }
                     address.state?.let { state -> state.name }
-                        ?.let { name -> adressSeller += ", $name" }
+                        ?.let { name -> addressSeller += ", $name" }
                     address.country?.let { country -> country.name }
-                        ?.let { name -> adressSeller += ", $name" }
+                        ?.let { name -> addressSeller += ", $name" }
+                    binding.adressSeller.text = addressSeller
                 } ?: binding.adressSeller.showView(false)
             }
 

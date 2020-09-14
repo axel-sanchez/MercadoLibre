@@ -27,6 +27,8 @@ class MainFragment: BaseFragment() {
         binding.search.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_SEARCH || id == EditorInfo.IME_NULL) {
 
+
+
                 (activity as INavigationHost).replaceTo(SearchFragment.newInstance(binding.search.text.toString()), true)
 
                 return@OnEditorActionListener true
