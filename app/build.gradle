@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -44,24 +45,33 @@ dependencies {
     implementation "org.koin:koin-android-scope:1.0.1"
     implementation "org.koin:koin-android-viewmodel:1.0.1"
 
+    //Material
     implementation 'com.google.android.material:material:1.2.1'
-
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 
     //Retrfit
         implementation 'com.squareup.retrofit2:retrofit:2.6.2'
         implementation 'com.google.code.gson:gson:2.8.6'
         implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
+    //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
+    //LottieAnimations
     implementation 'com.airbnb.android:lottie:2.5.4'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
-    implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha04'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha08'
+
+    implementation 'androidx.room:room-ktx:2.2.5'
+    kapt "androidx.room:room-compiler:2.2.5"
 }

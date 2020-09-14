@@ -1,10 +1,10 @@
-package com.example.mercadolibre.data.models.service
+package com.example.mercadolibre.data.service
 
 import androidx.lifecycle.MutableLiveData
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import java.lang.Exception
-import com.example.mercadolibre.data.models.search.Result
+import com.example.mercadolibre.data.models.MyResponse.Producto
 
 const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
 
@@ -19,8 +19,8 @@ class ConnectToApi : KoinComponent {
      * Esta función es la encargada de retornar las movies mas populares
      * @return devuelve un mutableLiveData que contiene un listado de [Movie] populares
      */
-    suspend fun getSearch(query: String): MutableLiveData<List<Result?>> {
-        var mutableLiveData = MutableLiveData<List<Result?>>()
+    suspend fun getSearch(query: String): MutableLiveData<List<Producto?>> {
+        var mutableLiveData = MutableLiveData<List<Producto?>>()
         try {
             var response = service.search(query)
             if (response.isSuccessful) mutableLiveData.value = response.body()?.let { it.results } ?: listOf()

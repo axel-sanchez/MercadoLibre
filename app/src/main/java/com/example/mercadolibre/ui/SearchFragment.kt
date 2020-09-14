@@ -8,17 +8,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mercadolibre.data.models.MyResponse.Producto
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mercadolibre.data.models.search.Result
 import com.example.mercadolibre.databinding.FragmentSearchBinding
-import com.example.mercadolibre.ui.adapter.ResultAdapter
+import com.example.mercadolibre.ui.adapter.ProductoAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.ui.interfaces.INavigationHost
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.lang.Exception
 
 const val ARG_QUERY = "query"
 
@@ -29,7 +28,8 @@ class SearchFragment : BaseFragment() {
 
     private val viewModelFactory: SearchViewModelFactory by inject()
     private val viewModel: SearchViewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
+        ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(SearchViewModel::class.java)
     }
 
     private lateinit var query: String
@@ -37,7 +37,7 @@ class SearchFragment : BaseFragment() {
     private var fragmentSearchBinding: FragmentSearchBinding? = null
     private val binding get() = fragmentSearchBinding!!
 
-    private lateinit var viewAdapter: ResultAdapter
+    private lateinit var viewAdapter: ProductoAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,23 +61,24 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun setUpObserver() {
-        val myObserver = Observer<List<Result?>?> {
-            it?.let { results ->
+        val myObserver = Observer<List<Producto?>?> {
+            it?.let { Productos ->
                 binding.progress.cancelAnimation()
                 binding.progress.showView(false)
-                if (results.isNotEmpty()) {
+                if (Productos.isNotEmpty()) {
                     binding.emptyState.showView(false)
                     binding.recyclerview.showView(true)
-                    setAdapter(results)
+                    setAdapter(Productos)
                 } else binding.emptyState.showView(true)
             }
         }
-        viewModel.getSearchLiveData().observe(viewLifecycleOwner, myObserver)
+        viewModel.getSearchLiveData()
+            .observe(viewLifecycleOwner, myObserver)
     }
 
-    private fun setAdapter(movies: List<Result?>) {
+    private fun setAdapter(movies: List<Producto?>) {
 
-        viewAdapter = ResultAdapter(movies) { itemClick(it) }
+        viewAdapter = ProductoAdapter(movies) { itemClick(it) }
 
         viewManager = LinearLayoutManager(this.requireContext())
 
@@ -93,11 +94,9 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun itemClick(result: Result?) {
-        result?.let {
-            it.realPrice = it.price.toFloat()
-            it.realOriginalPrice = it.original_price?.let { it.toFloat() } ?: 0.0f
-            (activity as INavigationHost).replaceTo(DetailsFragment.newInstance(it), true)
+    private fun itemClick(producto: Producto?) {
+        producto?.let {
+            (activity as INavigationHost).replaceTo(DetailsFragment.newInstance(it.id), true)
         }
     }
 

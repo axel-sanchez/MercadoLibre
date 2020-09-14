@@ -5,12 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.example.mercadolibre.data.models.search.Result
+import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.room.Database
 import com.example.mercadolibre.databinding.FragmentDetailsBinding
 import com.example.mercadolibre.ui.customs.BaseFragment
+import com.example.mercadolibre.viewmodel.DetailsViewModel
+import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
-const val ARG_RESULT = "result"
+const val ARG_ID_PRODUCTO = "id_producto"
 
 /**
  * Fragment para mostrar los datos de un producto
@@ -18,50 +26,110 @@ const val ARG_RESULT = "result"
  */
 class DetailsFragment : BaseFragment() {
 
-    var result: Result? = null
-
+    var idProducto = ""
     private var fragmentDetailsBinding: FragmentDetailsBinding? = null
     private val binding get() = fragmentDetailsBinding!!
+
+    private val viewModelFactory: DetailsViewModelFactory by inject()
+    private val viewModel: DetailsViewModel by lazy {
+        ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(DetailsViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            result = it.getParcelable(ARG_RESULT)
+            idProducto = it.getString(ARG_ID_PRODUCTO)
+                ?.let { id -> id } ?: ""
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        result?.let {
-            binding.title.text = it.title
-            Glide.with(requireContext()).load(it.thumbnail).into(binding.image)
-            if (it.available_quantity > 0) binding.availableQuantity.text =
-                "Unidades disponibles: ${it.available_quantity}"
+        lifecycleScope.launch {
+            viewModel.getLocalProduct(idProducto)
+        }
 
-            binding.price.text = "$${it.realPrice}"
+        setUpViewModel()
+    }
 
-            binding.soldProducts.text =
-                "${it.seller.seller_reputation.transactions.completed} ventas"
+    private fun setUpViewModel() {
+        val myObserver = Observer<Producto?> { producto ->
 
-            if (it.shipping.free_shipping) binding.freeShipping.showView(true)
-            else binding.freeShipping.showView(false)
+            producto?.let {
+                it.title?.let { title ->
+                    binding.title.text = title
+                } ?: binding.title.showView(false)
 
-            if (it.realOriginalPrice > 0.0f) {
-                binding.originalPrice.text = "$${it.original_price}"
-                binding.originalPrice.paintFlags =
-                    binding.originalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            } else binding.originalPrice.showView(false)
+                it.thumbnail?.let { urlImagen ->
+                    Glide.with(requireContext())
+                        .load(urlImagen)
+                        .into(binding.image)
+                } ?: binding.image.showView(false)
 
-            binding.nameSeller.text = it.seller.eshop.nick_name
+                it.available_quantity?.let { availableQuatity ->
+                    if (availableQuatity > 0) binding.availableQuantity.text = "Unidades disponibles: $availableQuatity"
+                } ?: binding.availableQuantity.showView(false)
 
-            Glide.with(requireContext()).load(it.seller.eshop.eshop_logo_url)
-                .into(binding.logoSeller)
+                it.price?.let { price ->
+                    binding.price.text = "$${price.toFloat()}"
+                } ?: binding.price.showView(false)
 
-            binding.adressSeller.text =
-                "${it.seller_address.city.name}, ${it.seller_address.state.name}, ${it.seller_address.country.name}"
+                it.shipping?.let { shipping -> shipping.free_shipping }
+                    ?.let { freeShipping ->
+                        if (freeShipping) binding.freeShipping.showView(true)
+                        else binding.freeShipping.showView(false)
+                    } ?: binding.freeShipping.showView(false)
+
+                it.original_price?.let { originalPrice ->
+                    if (originalPrice.toFloat() > 0.0f) {
+                        binding.originalPrice.text = "$${originalPrice}"
+                        binding.originalPrice.paintFlags = binding.originalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    } else binding.originalPrice.showView(false)
+                } ?: binding.originalPrice.showView(false)
+
+                it.seller?.let { seller ->
+
+                    seller.seller_reputation?.let { reputation -> reputation.transactions }
+                        ?.let { transactions -> transactions.completed }
+                        ?.let { completed ->
+                            binding.soldProducts.text = "$completed ventas"
+                        } ?: binding.soldProducts.showView(false)
+
+                    seller.eshop?.let { eshop ->
+                        eshop.nick_name?.let { name ->
+                            binding.nameSeller.text = name
+                        } ?: binding.nameSeller.showView(false)
+
+                        eshop.eshop_logo_url?.let { logoUrl ->
+                            Glide.with(requireContext())
+                                .load(logoUrl)
+                                .into(binding.logoSeller)
+                        } ?: binding.logoSeller.showView(false)
+                    } ?: kotlin.run {
+                        binding.nameSeller.showView(false)
+                        binding.logoSeller.showView(false)
+                    }
+                } ?: kotlin.run {
+                    binding.soldProducts.showView(false)
+                    binding.nameSeller.showView(false)
+                    binding.logoSeller.showView(false)
+                }
+
+                it.seller_address?.let { address ->
+                    var adressSeller = ""
+                    address.city?.let { city -> city.name }
+                        ?.let { name -> adressSeller += name }
+                    address.state?.let { state -> state.name }
+                        ?.let { name -> adressSeller += ", $name" }
+                    address.country?.let { country -> country.name }
+                        ?.let { name -> adressSeller += ", $name" }
+                } ?: binding.adressSeller.showView(false)
+            }
 
         }
+        viewModel.getLocalProductLiveData().observe(viewLifecycleOwner, myObserver)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -78,9 +146,9 @@ class DetailsFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(result: Result) = DetailsFragment().apply {
+        fun newInstance(idProducto: String) = DetailsFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(ARG_RESULT, result)
+                putString(ARG_ID_PRODUCTO, idProducto)
             }
         }
     }

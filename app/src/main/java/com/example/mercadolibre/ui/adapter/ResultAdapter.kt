@@ -1,35 +1,42 @@
 package com.example.mercadolibre.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.mercadolibre.data.models.search.Result
+import com.example.mercadolibre.data.models.MyResponse.Producto
 import com.example.mercadolibre.databinding.ItemProductoBinding
 
 /**
  * Clase que adapta el recyclerview de [SitiesFragment]
  * @author Axel Sanchez
  */
-class ResultAdapter(
-    private var mItems: List<Result?>,
-    private var itemClick: (Result?) -> Unit) : RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
+class ProductoAdapter(
+    private var mItems: List<Producto?>,
+    private var itemClick: (Producto?) -> Unit) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemProductoBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Result?, itemClick: (Result?) -> Unit) {
+        fun bind(item: Producto?, itemClick: (Producto?) -> Unit) {
 
-            item?.let { result ->
-                itemView.setOnClickListener { itemClick(result) }
+            item?.let { producto ->
+                itemView.setOnClickListener { itemClick(producto) }
 
-                binding.title.text = result.title
+                producto.title?.let { title ->
+                    binding.title.text = title
+                }?: kotlin.run { binding.title.visibility = View.GONE }
 
-                binding.price.text = "$${result.price}"
+                producto.price?.let { price ->
+                    binding.price.text = "$$price"
+                }?: kotlin.run { binding.price.visibility = View.GONE }
 
-                if(result.thumbnail.isNotEmpty())
-                    Glide.with(itemView.context)
-                        .load(item.thumbnail)
-                        .into(binding.image)
+                producto.thumbnail?.let { urlImagen ->
+                    if(urlImagen.isNotEmpty())
+                        Glide.with(itemView.context)
+                            .load(item.thumbnail)
+                            .into(binding.image)
+                }?: kotlin.run { binding.image.visibility = View.GONE }
             }
         }
     }
@@ -51,11 +58,11 @@ class ResultAdapter(
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = mItems.size
 
-    fun setItems(newItems: List<Result?>) {
+    fun setItems(newItems: List<Producto?>) {
         mItems = newItems
     }
 
-    fun getItems(): List<Result?> {
+    fun getItems(): List<Producto?> {
         return mItems
     }
 }
