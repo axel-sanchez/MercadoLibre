@@ -17,8 +17,6 @@ import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-const val ARG_ID_PRODUCTO = "id_producto"
-
 /**
  * Fragment para mostrar los datos de un producto
  * @author Axel Sanchez
@@ -136,6 +134,10 @@ class DetailsActivity: AppCompatActivity() {
         finishAfterTransition()
     }
 
+    /**
+     * Extension function que muestra u oculta una vista
+     * @param [show] un boolean que determina si quiero ocultar o mostrar la vista
+     */
     private fun View.showView(show: Boolean){
         if(show) this.visibility = View.VISIBLE
         else this.visibility = View.GONE

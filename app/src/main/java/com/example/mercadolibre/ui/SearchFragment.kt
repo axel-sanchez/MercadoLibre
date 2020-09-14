@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.ui.adapter.ProductoAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
-import com.example.mercadolibre.ui.interfaces.INavigationHost
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModelFactory
 import kotlinx.coroutines.launch
@@ -28,6 +27,7 @@ import org.koin.android.ext.android.inject
 const val ARG_QUERY = "query"
 
 /**
+ * Fragment que contiene un recyclerview de productos obtenidos de una búsqueda
  * @author Axel Sanchez
  */
 class SearchFragment : BaseFragment() {

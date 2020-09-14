@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.example.mercadolibre.data.models.MyResponse
 
 /**
+ * Base de datos utilizando room
  * @author Axel Sanchez
  */
 @Database(
@@ -14,6 +15,5 @@ import com.example.mercadolibre.data.models.MyResponse
 )
 @TypeConverters(Converters::class)
 abstract class Database : RoomDatabase() {
-
     abstract fun productDao(): ProductoDao
 }

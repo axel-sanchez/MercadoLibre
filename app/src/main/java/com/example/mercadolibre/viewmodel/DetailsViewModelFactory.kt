@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mercadolibre.domain.DetailsUseCase
 
 /**
- * Factory de nuestro [MyViewModel]
+ * Factory de nuestro [DetailsViewModel]
  * @author Axel Sanchez
  */
 class DetailsViewModelFactory(private val detailsUseCase: DetailsUseCase) : ViewModelProvider.Factory {

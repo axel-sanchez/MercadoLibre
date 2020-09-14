@@ -7,7 +7,7 @@ import com.example.mercadolibre.data.models.MyResponse
 import com.example.mercadolibre.domain.DetailsUseCase
 
 /**
- * View model de [DetailsFragment]
+ * View model de [DetailsActivity]
  * @author Axel Sanchez
  */
 class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel() {

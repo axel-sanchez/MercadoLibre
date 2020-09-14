@@ -16,7 +16,7 @@ interface INavigationHost {
     fun navigateTo(fragment: Fragment, addToBackstack: Boolean)
 
     /**
-     * Remplaza el fragment actual por uno nuevo
+     * Reemplaza el fragment actual por uno nuevo
      * @param [fragment] fragmento al que queremos ir
      * @param [addToBackstack] un boolean que va a determinar si guardamos o no en memoria el fragment actual
      */

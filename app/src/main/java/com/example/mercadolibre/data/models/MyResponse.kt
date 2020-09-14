@@ -1,10 +1,12 @@
 package com.example.mercadolibre.data.models
 
-import android.media.Image
-import android.widget.ImageView
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Clase encargada de almacenar la respuesta de la api para buscar productos
+ * @author Axel Sanchez
+ * */
 @Entity data class MyResponse(
     var available_filters: List<AvailableFilter?>? = null,
     var available_sorts: List<AvailableSort?>? = null,
@@ -60,6 +62,10 @@ import androidx.room.PrimaryKey
         var total: Int? = null
     )
 
+    /**
+     * Clase que sirve para almacenar los productos que se reciben de la api
+     * @author Axel Sanchez
+     * **/
     @Entity data class Producto(
         @PrimaryKey var id: String,
         var accepts_mercadopago: Boolean? = null,

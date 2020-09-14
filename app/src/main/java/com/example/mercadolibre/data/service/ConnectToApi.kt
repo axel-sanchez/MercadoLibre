@@ -1,5 +1,6 @@
 package com.example.mercadolibre.data.service
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -9,15 +10,16 @@ import com.example.mercadolibre.data.models.MyResponse.Producto
 const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
 
 /**
- * Esta clase es la encargada de conectarse a las api's
+ * Esta clase es la encargada de conectarse a la api
  * @author Axel Sanchez
  */
 class ConnectToApi : KoinComponent {
     private val service: ApiService by inject()
 
     /**
-     * Esta función es la encargada de retornar las movies mas populares
-     * @return devuelve un mutableLiveData que contiene un listado de [Movie] populares
+     * Esta función es la encargada de retornar la búsqueda de productos
+     * @param [query] es la búsqueda
+     * @return devuelve un mutableLiveData que contiene un listado de [Producto]
      */
     suspend fun getSearch(query: String): MutableLiveData<List<Producto?>> {
         var mutableLiveData = MutableLiveData<List<Producto?>>()
@@ -26,9 +28,9 @@ class ConnectToApi : KoinComponent {
             if (response.isSuccessful) mutableLiveData.value = response.body()?.let { it.results } ?: listOf()
             else mutableLiveData.value = listOf()
         } catch (e:Exception){
-            e.printStackTrace()
+            mutableLiveData.value = listOf()
+            Log.e("ConnectToApi", "Error al obtener los productos y guardarlos en el livedata")
         }
-        println("cantidad del listado: ${mutableLiveData.value?.size}")
         return mutableLiveData
     }
 }

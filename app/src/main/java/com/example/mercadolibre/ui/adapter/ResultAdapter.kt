@@ -10,7 +10,7 @@ import com.example.mercadolibre.data.models.MyResponse.Producto
 import com.example.mercadolibre.databinding.ItemProductoBinding
 
 /**
- * Clase que adapta el recyclerview de [SitiesFragment]
+ * Clase que adapta el recyclerview de [SearchFragment]
  * @author Axel Sanchez
  */
 class ProductoAdapter(
@@ -37,7 +37,7 @@ class ProductoAdapter(
                 producto.thumbnail?.let { urlImagen ->
                     if(urlImagen.isNotEmpty())
                         Glide.with(itemView.context)
-                            .load(item.thumbnail)
+                            .load(urlImagen)
                             .into(binding.image)
                 }?: kotlin.run { binding.image.visibility = View.GONE }
             }
@@ -60,12 +60,4 @@ class ProductoAdapter(
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = mItems.size
-
-    fun setItems(newItems: List<Producto?>) {
-        mItems = newItems
-    }
-
-    fun getItems(): List<Producto?> {
-        return mItems
-    }
 }

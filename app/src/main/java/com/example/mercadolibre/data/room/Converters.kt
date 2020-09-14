@@ -6,12 +6,12 @@ import com.google.gson.Gson
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
+private const val nullStr = "null"
 /** Convertidor de clases para la base de datos con room
  * @author Axel Sanchez
  */
 class Converters : KoinComponent {
 
-    private var vacio = "null"
     private val gson: Gson by inject()
 
     @TypeConverter
@@ -78,7 +78,7 @@ class Converters : KoinComponent {
     fun toTags(concat: String?): List<String?>? {
         var list = concat?.split(";")
         list?.let {
-            return it.map { str -> if (str != vacio) str else null }
+            return it.map { str -> if (str != nullStr) str else null }
         } ?: return null
     }
 
