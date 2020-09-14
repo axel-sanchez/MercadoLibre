@@ -1,17 +1,17 @@
 package com.example.mercadolibre.ui
 
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.data.models.MyResponse.Producto
 import com.example.mercadolibre.databinding.FragmentDetailsBinding
-import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.viewmodel.DetailsViewModel
 import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
 import kotlinx.coroutines.launch
@@ -23,28 +23,28 @@ const val ARG_ID_PRODUCTO = "id_producto"
  * Fragment para mostrar los datos de un producto
  * @author Axel Sanchez
  */
-class DetailsFragment : BaseFragment() {
+class DetailsActivity: AppCompatActivity() {
 
     var idProducto = ""
     private var fragmentDetailsBinding: FragmentDetailsBinding? = null
-    private val binding get() = fragmentDetailsBinding!!
+    private lateinit var binding: FragmentDetailsBinding
 
     private val viewModelFactory: DetailsViewModelFactory by inject()
     private val viewModel: DetailsViewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory)
+        ViewModelProviders.of(this, viewModelFactory)
             .get(DetailsViewModel::class.java)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            idProducto = it.getString(ARG_ID_PRODUCTO)
-                ?.let { id -> id } ?: ""
-        }
-    }
+        binding = FragmentDetailsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.image.transitionName = "search"
+
+        idProducto = intent.extras!!.getString("id")?.let { it }?:""
 
         lifecycleScope.launch {
             viewModel.getLocalProduct(idProducto)
@@ -62,7 +62,7 @@ class DetailsFragment : BaseFragment() {
                 } ?: binding.title.showView(false)
 
                 it.thumbnail?.let { urlImagen ->
-                    Glide.with(requireContext())
+                    Glide.with(this)
                         .load(urlImagen)
                         .into(binding.image)
                 } ?: binding.image.showView(false)
@@ -102,7 +102,7 @@ class DetailsFragment : BaseFragment() {
                         } ?: binding.nameSeller.showView(false)
 
                         eshop.eshop_logo_url?.let { logoUrl ->
-                            Glide.with(requireContext())
+                            Glide.with(this)
                                 .load(logoUrl)
                                 .into(binding.logoSeller)
                         } ?: binding.logoSeller.showView(false)
@@ -129,27 +129,16 @@ class DetailsFragment : BaseFragment() {
             }
 
         }
-        viewModel.getLocalProductLiveData().observe(viewLifecycleOwner, myObserver)
+        viewModel.getLocalProductLiveData().observe(this, myObserver)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentDetailsBinding = FragmentDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onBackPressed() {
+        finishAfterTransition()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentDetailsBinding = null
-    }
-
-    override fun onBackPressFragment() = false
-
-    companion object {
-        @JvmStatic
-        fun newInstance(idProducto: String) = DetailsFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_ID_PRODUCTO, idProducto)
-            }
-        }
+    private fun View.showView(show: Boolean){
+        if(show) this.visibility = View.VISIBLE
+        else this.visibility = View.GONE
     }
 }

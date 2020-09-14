@@ -3,6 +3,7 @@ package com.example.mercadolibre.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.data.models.MyResponse.Producto
@@ -14,14 +15,16 @@ import com.example.mercadolibre.databinding.ItemProductoBinding
  */
 class ProductoAdapter(
     private var mItems: List<Producto?>,
-    private var itemClick: (Producto?) -> Unit) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
+    private var itemClick: (Producto?, ImageView) -> Unit?) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemProductoBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Producto?, itemClick: (Producto?) -> Unit) {
+        fun bind(item: Producto?, itemClick: (Producto?, ImageView) -> Unit?) {
 
             item?.let { producto ->
-                itemView.setOnClickListener { itemClick(producto) }
+                itemView.setOnClickListener {
+                    itemClick(producto, binding.image)
+                }
 
                 producto.title?.let { title ->
                     binding.title.text = title

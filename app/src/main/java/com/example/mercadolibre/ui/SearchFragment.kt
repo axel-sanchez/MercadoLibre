@@ -1,9 +1,14 @@
 package com.example.mercadolibre.ui
 
+import android.app.ActivityOptions
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -60,6 +65,7 @@ class SearchFragment : BaseFragment() {
         setUpObserver()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setUpObserver() {
         val myObserver = Observer<List<Producto?>?> {
             it?.let { Productos ->
@@ -76,9 +82,10 @@ class SearchFragment : BaseFragment() {
             .observe(viewLifecycleOwner, myObserver)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setAdapter(movies: List<Producto?>) {
 
-        viewAdapter = ProductoAdapter(movies) { itemClick(it) }
+        viewAdapter = ProductoAdapter(movies, itemClick)
 
         viewManager = LinearLayoutManager(this.requireContext())
 
@@ -94,9 +101,16 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun itemClick(producto: Producto?) {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP) var itemClick = { producto: Producto?, imageView: ImageView ->
         producto?.let {
-            (activity as INavigationHost).replaceTo(DetailsFragment.newInstance(it.id), true)
+            val intent = Intent(context, DetailsActivity::class.java)
+            intent.putExtra("id", it.id)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                activity,
+                imageView,
+                "search"
+            )
+            startActivity(intent, options.toBundle())
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.mercadolibre.data.models
 
+import android.media.Image
+import android.widget.ImageView
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
