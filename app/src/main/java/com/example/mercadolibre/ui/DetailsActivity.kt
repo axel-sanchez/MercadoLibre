@@ -26,7 +26,6 @@ const val ARG_ID_PRODUCTO = "id_producto"
 class DetailsActivity: AppCompatActivity() {
 
     var idProducto = ""
-    private var fragmentDetailsBinding: FragmentDetailsBinding? = null
     private lateinit var binding: FragmentDetailsBinding
 
     private val viewModelFactory: DetailsViewModelFactory by inject()
