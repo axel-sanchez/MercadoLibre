@@ -40,6 +40,8 @@ class SearchFragment : BaseFragment() {
 
     private lateinit var query: String
 
+    private var needUpdate = true
+
     private var fragmentSearchBinding: FragmentSearchBinding? = null
     private val binding get() = fragmentSearchBinding!!
 
@@ -62,6 +64,11 @@ class SearchFragment : BaseFragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            viewModel.getSearch(query)
+        }
+
         setUpObserver()
     }
 
@@ -125,13 +132,16 @@ class SearchFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.recyclerview.showView(false)
-        binding.progress.playAnimation()
-        binding.progress.showView(true)
-
-        lifecycleScope.launch {
-            viewModel.getSearch(query)
+        if(needUpdate){
+            binding.recyclerview.showView(false)
+            binding.progress.playAnimation()
+            binding.progress.showView(true)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        needUpdate = false
     }
 
     override fun onDestroyView() {
