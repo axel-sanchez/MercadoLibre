@@ -25,15 +25,16 @@ class ConnectToApi : KoinComponent {
         var mutableLiveData = MutableLiveData<List<Producto?>>()
         try {
             var response = service.search(query)
-            if (response.isSuccessful){
-                Log.i("Successful Response", response.body()?.let { it.toString() }?:"")
-                mutableLiveData.value = response.body()?.let { it.results } ?: listOf()
-            }
-            else {
+            if (response.isSuccessful) {
+                Log.i("Successful Response", response.body()
+                    ?.let { it.toString() } ?: "")
+                mutableLiveData.value = response.body()
+                    ?.let { it.results } ?: listOf()
+            } else {
                 Log.i("Error Response", response.errorBody().toString())
                 mutableLiveData.value = listOf()
             }
-        } catch (e:Exception){
+        } catch (e: Exception) {
             mutableLiveData.value = listOf()
             Log.e("ConnectToApi", "Error al obtener los productos y guardarlos en el livedata")
             Log.e("Query", query)
