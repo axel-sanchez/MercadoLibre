@@ -4,7 +4,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +21,8 @@ import com.example.mercadolibre.ui.adapter.ProductoAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModelFactory
-import kotlinx.android.synthetic.main.fragment_search.progress
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.lang.Exception
 
 const val ARG_QUERY = "query"
 
@@ -98,11 +95,9 @@ class SearchFragment : BaseFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun setAdapter(movies: List<Producto?>) {
+    private fun setAdapter(products: List<Producto?>) {
 
-        Log.i("RecyclerViewAdapter", movies.firstOrNull()?.let { it.search }?:"")
-
-        viewAdapter = ProductoAdapter(movies, itemClick)
+        viewAdapter = ProductoAdapter(products, itemClick)
 
         viewManager = LinearLayoutManager(this.requireContext())
 
@@ -129,6 +124,13 @@ class SearchFragment : BaseFragment() {
             )
             startActivity(intent, options.toBundle())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.recyclerview.showView(false)
+        binding.progress.playAnimation()
+        binding.progress.showView(true)
     }
 
     override fun onDestroyView() {
