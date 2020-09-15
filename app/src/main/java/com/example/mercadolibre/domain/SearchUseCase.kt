@@ -20,23 +20,26 @@ class SearchUseCase : KoinComponent {
      * @return devuelve un listado de [Producto]
      */
     suspend fun getSearch(query: String): List<Producto?>? {
-        try{
+        try {
             var localProducts = room.productDao().getProductFromSearch(query)
-            if(localProducts.isNotEmpty()) return localProducts
-        } catch (e: java.lang.Exception){
+            if (localProducts.isNotEmpty()) return localProducts
+        } catch (e: java.lang.Exception) {
             Log.e("SearchUseCase", "Falló al buscar los productos de la base de datos local vinculados con una búsqueda")
+            e.printStackTrace()
         }
 
-        var listProductos = api.getSearch(query).value
+        val listProductos = api.getSearch(query).value
 
         listProductos?.let { listado ->
-            for (producto in listado){
+            for (producto in listado) {
                 producto?.let {
                     try {
                         producto.search = query
-                        room.productDao().insert(it)
-                    } catch (e: Exception){
+                        room.productDao()
+                            .insert(it)
+                    } catch (e: Exception) {
                         Log.e("SearchUseCase", "Falló al insertar un producto a la base de datos")
+                        e.printStackTrace()
                     }
                 }
             }

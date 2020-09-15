@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,10 @@ import com.example.mercadolibre.ui.adapter.ProductoAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModelFactory
+import kotlinx.android.synthetic.main.fragment_search.progress
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 const val ARG_QUERY = "query"
 
@@ -51,6 +54,7 @@ class SearchFragment : BaseFragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -77,11 +81,15 @@ class SearchFragment : BaseFragment() {
                     binding.emptyState.showView(false)
                     binding.recyclerview.showView(true)
                     setAdapter(productos)
-                } else binding.emptyState.showView(true)
+                } else{
+                    binding.emptyState.showView(true)
+                    binding.recyclerview.showView(false)
+                }
             }?: kotlin.run {
                 binding.progress.cancelAnimation()
                 binding.progress.showView(false)
                 binding.emptyState.showView(true)
+                binding.recyclerview.showView(false)
                 Toast.makeText(requireContext(), "Falló la búsqueda", Toast.LENGTH_SHORT).show()
             }
         }
@@ -91,6 +99,8 @@ class SearchFragment : BaseFragment() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setAdapter(movies: List<Producto?>) {
+
+        Log.i("RecyclerViewAdapter", movies.firstOrNull()?.let { it.search }?:"")
 
         viewAdapter = ProductoAdapter(movies, itemClick)
 

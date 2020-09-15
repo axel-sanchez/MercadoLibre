@@ -30,26 +30,17 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/empty_state_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:gravity="center"
+                android:textColor="@android:color/black"
                 android:text="@string/sin_productos"
                 android:textSize="18sp"/>
-
-            <Button
-                android:id="@+id/search_online"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:textColor="@android:color/white"
-                android:background="#43A047"
-                android:text="Búsqueda online"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
