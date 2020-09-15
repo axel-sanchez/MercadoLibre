@@ -62,9 +62,6 @@ class SearchFragment : BaseFragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            viewModel.getSearch(query)
-        }
         setUpObserver()
     }
 
@@ -131,6 +128,10 @@ class SearchFragment : BaseFragment() {
         binding.recyclerview.showView(false)
         binding.progress.playAnimation()
         binding.progress.showView(true)
+
+        lifecycleScope.launch {
+            viewModel.getSearch(query)
+        }
     }
 
     override fun onDestroyView() {
