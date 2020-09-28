@@ -10,11 +10,12 @@ import com.example.mercadolibre.ui.interfaces.IOnBackPressFragment
  */
 abstract class BaseFragment : Fragment() , IOnBackPressFragment {
     /**
-     * Extension Function que permite ocultar y mostrar cualquier vista
-     * @param [show] recibe un boolean que indica si quiere ocultar o mostrar la vista
+     * Extension Function que permite mostrar cualquier vista
      */
-    fun View.showView(show: Boolean){
-        if(show) this.visibility = View.VISIBLE
-        else this.visibility = View.GONE
-    }
+    fun View.show() { this.visibility = View.VISIBLE }
+
+    /**
+     * Extension Function que permite ocultar cualquier vista
+     */
+    fun View.hide() { this.visibility = View.GONE }
 }

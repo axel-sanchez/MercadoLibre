@@ -56,34 +56,34 @@ class DetailsActivity: AppCompatActivity() {
             producto?.let {
                 it.title?.let { title ->
                     binding.title.text = title
-                } ?: binding.title.showView(false)
+                } ?: binding.title.hide()
 
                 it.thumbnail?.let { urlImagen ->
                     Glide.with(this)
                         .load(urlImagen)
                         .into(binding.image)
-                } ?: binding.image.showView(false)
+                } ?: binding.image.hide()
 
                 it.available_quantity?.let { availableQuatity ->
                     if (availableQuatity > 0) binding.availableQuantity.text = "Unidades disponibles: $availableQuatity"
-                } ?: binding.availableQuantity.showView(false)
+                } ?: binding.availableQuantity.hide()
 
                 it.price?.let { price ->
                     binding.price.text = "$${price.toFloat()}"
-                } ?: binding.price.showView(false)
+                } ?: binding.price.hide()
 
                 it.shipping?.let { shipping -> shipping.free_shipping }
                     ?.let { freeShipping ->
-                        if (freeShipping) binding.freeShipping.showView(true)
-                        else binding.freeShipping.showView(false)
-                    } ?: binding.freeShipping.showView(false)
+                        if (freeShipping) binding.freeShipping.show()
+                        else binding.freeShipping.hide()
+                    } ?: binding.freeShipping.hide()
 
                 it.original_price?.let { originalPrice ->
                     if (originalPrice.toFloat() > 0.0f) {
                         binding.originalPrice.text = "$${originalPrice}"
                         binding.originalPrice.paintFlags = binding.originalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    } else binding.originalPrice.showView(false)
-                } ?: binding.originalPrice.showView(false)
+                    } else binding.originalPrice.hide()
+                } ?: binding.originalPrice.hide()
 
                 it.seller?.let { seller ->
 
@@ -91,26 +91,26 @@ class DetailsActivity: AppCompatActivity() {
                         ?.let { transactions -> transactions.completed }
                         ?.let { completed ->
                             binding.soldProducts.text = "$completed ventas"
-                        } ?: binding.soldProducts.showView(false)
+                        } ?: binding.soldProducts.hide()
 
                     seller.eshop?.let { eshop ->
                         eshop.nick_name?.let { name ->
                             binding.nameSeller.text = name
-                        } ?: binding.nameSeller.showView(false)
+                        } ?: binding.nameSeller.hide()
 
                         eshop.eshop_logo_url?.let { logoUrl ->
                             Glide.with(this)
                                 .load(logoUrl)
                                 .into(binding.logoSeller)
-                        } ?: binding.logoSeller.showView(false)
+                        } ?: binding.logoSeller.hide()
                     } ?: kotlin.run {
-                        binding.nameSeller.showView(false)
-                        binding.logoSeller.showView(false)
+                        binding.nameSeller.hide()
+                        binding.logoSeller.hide()
                     }
                 } ?: kotlin.run {
-                    binding.soldProducts.showView(false)
-                    binding.nameSeller.showView(false)
-                    binding.logoSeller.showView(false)
+                    binding.soldProducts.hide()
+                    binding.nameSeller.hide()
+                    binding.logoSeller.hide()
                 }
 
                 it.seller_address?.let { address ->
@@ -122,7 +122,7 @@ class DetailsActivity: AppCompatActivity() {
                     address.country?.let { country -> country.name }
                         ?.let { name -> addressSeller += ", $name" }
                     binding.adressSeller.text = addressSeller
-                } ?: binding.adressSeller.showView(false)
+                } ?: binding.adressSeller.hide()
             }
 
         }
@@ -135,11 +135,12 @@ class DetailsActivity: AppCompatActivity() {
     }
 
     /**
-     * Extension function que muestra u oculta una vista
-     * @param [show] un boolean que determina si quiero ocultar o mostrar la vista
+     * Extension Function que permite mostrar cualquier vista
      */
-    private fun View.showView(show: Boolean){
-        if(show) this.visibility = View.VISIBLE
-        else this.visibility = View.GONE
-    }
+    private fun View.show() { this.visibility = View.VISIBLE }
+
+    /**
+     * Extension Function que permite ocultar cualquier vista
+     */
+    private fun View.hide() { this.visibility = View.GONE }
 }

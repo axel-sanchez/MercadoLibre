@@ -77,20 +77,20 @@ class SearchFragment : BaseFragment() {
         val myObserver = Observer<List<Producto?>?> {
             it?.let { productos ->
                 binding.progress.cancelAnimation()
-                binding.progress.showView(false)
+                binding.progress.hide()
                 if (productos.isNotEmpty()) {
-                    binding.emptyState.showView(false)
-                    binding.recyclerview.showView(true)
+                    binding.emptyState.hide()
+                    binding.recyclerview.show()
                     setAdapter(productos)
                 } else{
-                    binding.emptyState.showView(true)
-                    binding.recyclerview.showView(false)
+                    binding.emptyState.show()
+                    binding.recyclerview.hide()
                 }
             }?: kotlin.run {
                 binding.progress.cancelAnimation()
-                binding.progress.showView(false)
-                binding.emptyState.showView(true)
-                binding.recyclerview.showView(false)
+                binding.progress.hide()
+                binding.emptyState.show()
+                binding.recyclerview.hide()
                 Toast.makeText(requireContext(), "Falló la búsqueda", Toast.LENGTH_SHORT).show()
             }
         }
@@ -133,9 +133,9 @@ class SearchFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         if(needUpdate){
-            binding.recyclerview.showView(false)
+            binding.recyclerview.hide()
             binding.progress.playAnimation()
-            binding.progress.showView(true)
+            binding.progress.show()
         }
     }
 
