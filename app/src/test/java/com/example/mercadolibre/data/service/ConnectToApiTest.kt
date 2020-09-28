@@ -8,14 +8,17 @@ import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * @author Axel Sanchez
+ */
 class ConnectToApiTest {
 
-    private var retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private var service = retrofit.create(ApiService::class.java)
+    private val service = retrofit.create(ApiService::class.java)
 
     @Test
     fun getSearch() = runBlocking {

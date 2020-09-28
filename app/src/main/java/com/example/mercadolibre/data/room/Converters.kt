@@ -76,7 +76,7 @@ class Converters : KoinComponent {
 
     @TypeConverter
     fun toTags(concat: String?): List<String?>? {
-        var list = concat?.split(";")
+        val list = concat?.split(";")
         list?.let {
             return it.map { str -> if (str != nullStr) str else null }
         } ?: return null
@@ -178,7 +178,7 @@ class Converters : KoinComponent {
 
     @TypeConverter
     fun toAttributeList(concat: String?): List<Attribute?>? {
-        var newList = concat?.split(";")
+        val newList = concat?.split(";")
         newList?.let {
             return it.map { str -> toAttribute(str) }
         } ?: return null
@@ -198,7 +198,7 @@ class Converters : KoinComponent {
 
     @TypeConverter
     fun toValueList(concat: String?): List<Attribute.Value?>? {
-        var newList = concat?.split(";")
+        val newList = concat?.split(";")
         newList?.let {
             return it.map { str -> toValue(str) }
         } ?: return null
@@ -400,7 +400,7 @@ class Converters : KoinComponent {
 
     @TypeConverter
     fun toEShopList(concat: String?): List<Seller.Eshop.EshopLocation?>? {
-        var newList = concat?.split(";")
+        val newList = concat?.split(";")
         newList?.let {
             return it.map { str -> toEShopLocation(str) }
         } ?: return null

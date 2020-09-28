@@ -27,7 +27,7 @@ class MainActivity: AppCompatActivity(), INavigationHost {
 
         if (savedInstanceState == null) {
 
-            var fragment: Fragment = MainFragment()
+            val fragment: Fragment = MainFragment()
 
             replaceTo(fragment, false)
         }

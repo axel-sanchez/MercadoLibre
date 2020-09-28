@@ -15,7 +15,7 @@ import com.example.mercadolibre.databinding.ItemProductoBinding
  */
 class ProductoAdapter(
     private var mItems: List<Producto?>,
-    private var itemClick: (Producto?, ImageView) -> Unit?) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
+    private val itemClick: (Producto?, ImageView) -> Unit?) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemProductoBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -22,9 +22,9 @@ class ConnectToApi : KoinComponent {
      * @return devuelve un mutableLiveData que contiene un listado de [Producto]
      */
     suspend fun getSearch(query: String): MutableLiveData<List<Producto?>> {
-        var mutableLiveData = MutableLiveData<List<Producto?>>()
+        val mutableLiveData = MutableLiveData<List<Producto?>>()
         try {
-            var response = service.search(query)
+            val response = service.search(query)
             if (response.isSuccessful) {
                 Log.i("Successful Response", response.body()
                     ?.let { it.toString() } ?: "")

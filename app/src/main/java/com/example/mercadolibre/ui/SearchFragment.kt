@@ -117,7 +117,7 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP) var itemClick = { producto: Producto?, imageView: ImageView ->
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP) val itemClick = { producto: Producto?, imageView: ImageView ->
         producto?.let {
             val intent = Intent(context, DetailsActivity::class.java)
             intent.putExtra("id", it.id)
