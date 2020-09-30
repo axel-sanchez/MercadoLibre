@@ -3,4 +3,6 @@
     <string name="busqueda">Buscar en Mercado Libre</string>
     <string name="sin_productos">No se encontraron productos vinculados a su búsqueda.</string>
     <string name="free_shipping">Envio Gratis</string>
+    <string name="vendedor">VENDEDOR</string>
+    <string name="agotado">AGOTADO</string>
 </resources>
