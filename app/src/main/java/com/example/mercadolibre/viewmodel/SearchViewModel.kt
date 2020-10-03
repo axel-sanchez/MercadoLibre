@@ -3,7 +3,7 @@ package com.example.mercadolibre.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.domain.SearchUseCase
 
 /**
@@ -12,9 +12,9 @@ import com.example.mercadolibre.domain.SearchUseCase
  */
 class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
 
-    private val listData = MutableLiveData<List<Producto?>?>()
+    private val listData = MutableLiveData<List<Product?>?>()
 
-    private fun setListData(listProducto: List<Producto?>?) {
+    private fun setListData(listProducto: List<Product?>?) {
         listData.value = listProducto
     }
 
@@ -22,7 +22,7 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
         setListData(searchUseCase.getSearch(query))
     }
 
-    fun getSearchLiveData(): LiveData<List<Producto?>?> {
+    fun getSearchLiveData(): LiveData<List<Product?>?> {
         return listData
     }
 }

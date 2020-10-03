@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.ActivityDetailsBinding
 import com.example.mercadolibre.viewmodel.DetailsViewModel
 import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
@@ -51,7 +51,7 @@ class DetailsActivity: AppCompatActivity() {
     }
 
     private fun setUpViewModel() {
-        val myObserver = Observer<Producto?> { producto ->
+        val myObserver = Observer<Product?> { producto ->
 
             producto?.let {
                 it.title?.let { title ->

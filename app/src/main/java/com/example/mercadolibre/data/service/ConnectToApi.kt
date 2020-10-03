@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import java.lang.Exception
-import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.models.MyResponse.Product
 
 const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
 
@@ -19,10 +19,10 @@ class ConnectToApi : KoinComponent {
     /**
      * Esta función es la encargada de retornar la búsqueda de productos
      * @param [query] es la búsqueda
-     * @return devuelve un mutableLiveData que contiene un listado de [Producto]
+     * @return devuelve un mutableLiveData que contiene un listado de [Product]
      */
-    suspend fun getSearch(query: String): MutableLiveData<List<Producto?>> {
-        val mutableLiveData = MutableLiveData<List<Producto?>>()
+    suspend fun getSearch(query: String): MutableLiveData<List<Product?>> {
+        val mutableLiveData = MutableLiveData<List<Product?>>()
         try {
             val response = service.search(query)
             if (response.isSuccessful) {

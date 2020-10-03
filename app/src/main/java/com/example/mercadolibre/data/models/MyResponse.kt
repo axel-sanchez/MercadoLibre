@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
     var paging: Paging? = null,
     var query: String? = null,
     var related_Productos: List<Any?>? = null,
-    var results: List<Producto?>? = null,
+    var results: List<Product?>? = null,
     var secondary_Productos: List<Any?>? = null,
     var site_id: String? = null,
     var sort: Sort? = null
@@ -66,7 +66,7 @@ import androidx.room.PrimaryKey
      * Clase que sirve para almacenar los productos que se reciben de la api
      * @author Axel Sanchez
      * **/
-    @Entity data class Producto(
+    @Entity data class Product(
         @PrimaryKey var id: String,
         var accepts_mercadopago: Boolean? = null,
         var address: Address? = null,

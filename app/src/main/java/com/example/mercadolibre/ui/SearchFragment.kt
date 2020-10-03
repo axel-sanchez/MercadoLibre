@@ -14,10 +14,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.models.MyResponse.Product
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mercadolibre.databinding.FragmentSearchBinding
-import com.example.mercadolibre.ui.adapter.ProductoAdapter
+import com.example.mercadolibre.ui.adapter.ProductAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModelFactory
@@ -45,7 +45,7 @@ class SearchFragment : BaseFragment() {
     private var fragmentSearchBinding: FragmentSearchBinding? = null
     private val binding get() = fragmentSearchBinding!!
 
-    private lateinit var viewAdapter: ProductoAdapter
+    private lateinit var viewAdapter: ProductAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,14 +74,14 @@ class SearchFragment : BaseFragment() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setUpObserver() {
-        val myObserver = Observer<List<Producto?>?> {
-            it?.let { productos ->
+        val myObserver = Observer<List<Product?>?> {
+            it?.let { products ->
                 binding.progress.cancelAnimation()
                 binding.progress.hide()
-                if (productos.isNotEmpty()) {
+                if (products.isNotEmpty()) {
                     binding.emptyState.hide()
                     binding.recyclerview.show()
-                    setAdapter(productos)
+                    setAdapter(products)
                 } else{
                     binding.emptyState.show()
                     binding.recyclerview.hide()
@@ -99,9 +99,9 @@ class SearchFragment : BaseFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun setAdapter(products: List<Producto?>) {
+    private fun setAdapter(products: List<Product?>) {
 
-        viewAdapter = ProductoAdapter(products, itemClick)
+        viewAdapter = ProductAdapter(products, itemClick)
 
         viewManager = LinearLayoutManager(this.requireContext())
 
@@ -117,7 +117,7 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP) val itemClick = { producto: Producto?, imageView: ImageView ->
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP) val itemClick = { producto: Product?, imageView: ImageView ->
         producto?.let {
             val intent = Intent(context, DetailsActivity::class.java)
             intent.putExtra("id", it.id)

@@ -1,7 +1,7 @@
 package com.example.mercadolibre.data.room
 
 import androidx.room.*
-import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.models.MyResponse.Product
 
 /**
  * Dao utilizado para la implementación de la base de datos con room
@@ -15,21 +15,21 @@ interface ProductoDao {
      * @param [search] es búsqueda que se intenta obtener
      * @return listado de productos
      * */
-    @Query("SELECT * FROM Producto WHERE search = :search")
-    suspend fun getProductFromSearch(search: String): List<Producto?>
+    @Query("SELECT * FROM Product WHERE search = :search")
+    suspend fun getProductFromSearch(search: String): List<Product?>
 
     /**
      * Obtengo un producto de id determinado de la base de datos local
      * @param [id] id del producto
      * @return un producto
      * */
-    @Query("SELECT * FROM Producto WHERE ID = :id")
-    suspend fun getProduct(id: String): Producto?
+    @Query("SELECT * FROM Product WHERE ID = :id")
+    suspend fun getProduct(id: String): Product?
 
     /**
      * Inserto un producto en la base de datos local
      * @param [producto] que se intenta insertar
      * */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(producto: Producto?)
+    suspend fun insert(producto: Product?)
 }

@@ -6,38 +6,38 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.mercadolibre.data.models.MyResponse.Producto
-import com.example.mercadolibre.databinding.ItemProductoBinding
+import com.example.mercadolibre.data.models.MyResponse.Product
+import com.example.mercadolibre.databinding.ItemProductBinding
 
 /**
  * Clase que adapta el recyclerview de [SearchFragment]
  * @author Axel Sanchez
  */
-class ProductoAdapter(
-    private var mItems: List<Producto?>,
-    private val itemClick: (Producto?, ImageView) -> Unit?) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
+class ProductAdapter(
+    private var mItems: List<Product?>,
+    private val itemClick: (Product?, ImageView) -> Unit?) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemProductoBinding) :
+    inner class ViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Producto?, itemClick: (Producto?, ImageView) -> Unit?) {
+        fun bind(item: Product?, itemClick: (Product?, ImageView) -> Unit?) {
 
-            item?.let { producto ->
+            item?.let { product ->
                 itemView.setOnClickListener {
-                    itemClick(producto, binding.image)
+                    itemClick(product, binding.image)
                 }
 
-                producto.title?.let { title ->
+                product.title?.let { title ->
                     binding.title.text = title
                 }?: kotlin.run { binding.title.visibility = View.GONE }
 
-                producto.price?.let { price ->
+                product.price?.let { price ->
                     binding.price.text = "$$price"
                 }?: kotlin.run { binding.price.visibility = View.GONE }
 
-                producto.thumbnail?.let { urlImagen ->
-                    if(urlImagen.isNotEmpty())
+                product.thumbnail?.let { urlImage ->
+                    if(urlImage.isNotEmpty())
                         Glide.with(itemView.context)
-                            .load(urlImagen)
+                            .load(urlImage)
                             .into(binding.image)
                 }?: kotlin.run { binding.image.visibility = View.GONE }
             }
@@ -47,8 +47,8 @@ class ProductoAdapter(
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val recyclerRowBinding: ItemProductoBinding =
-            ItemProductoBinding.inflate(layoutInflater, parent, false)
+        val recyclerRowBinding: ItemProductBinding =
+            ItemProductBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(recyclerRowBinding)
     }
 

@@ -1,7 +1,7 @@
 package com.example.mercadolibre.domain
 
 import android.util.Log
-import com.example.mercadolibre.data.models.MyResponse.Producto
+import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.data.room.Database
 import com.example.mercadolibre.data.service.ConnectToApi
 import org.koin.standalone.KoinComponent
@@ -17,9 +17,9 @@ class SearchUseCase : KoinComponent {
 
     /**
      * Hago una busqueda localmente y si no hay productos llamo a la api
-     * @return devuelve un listado de [Producto]
+     * @return devuelve un listado de [Product]
      */
-    suspend fun getSearch(query: String): List<Producto?>? {
+    suspend fun getSearch(query: String): List<Product?>? {
         try {
             val localProducts = room.productDao().getProductFromSearch(query)
             if (localProducts.isNotEmpty()) return localProducts

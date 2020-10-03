@@ -12,9 +12,9 @@ import com.example.mercadolibre.domain.DetailsUseCase
  */
 class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel() {
 
-    private val listData = MutableLiveData<MyResponse.Producto?>()
+    private val listData = MutableLiveData<MyResponse.Product?>()
 
-    private fun setListData(product: MyResponse.Producto?) {
+    private fun setListData(product: MyResponse.Product?) {
         listData.postValue(product)
     }
 
@@ -22,7 +22,7 @@ class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel()
         setListData(detailsUseCase.getLocalProduct(id))
     }
 
-    fun getLocalProductLiveData(): LiveData<MyResponse.Producto?> {
+    fun getLocalProductLiveData(): LiveData<MyResponse.Product?> {
         return listData
     }
 }

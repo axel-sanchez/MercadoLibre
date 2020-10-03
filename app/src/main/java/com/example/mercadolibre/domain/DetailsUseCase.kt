@@ -19,7 +19,7 @@ class DetailsUseCase: KoinComponent{
      * Busco en la base de datos un producto
      * @return devuelve un [Producto]
      */
-    suspend fun getLocalProduct(id: String): MyResponse.Producto? {
+    suspend fun getLocalProduct(id: String): MyResponse.Product? {
         return try {
             room.productDao().getProduct(id)
         } catch (e: Exception){

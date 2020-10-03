@@ -10,7 +10,7 @@ import com.example.mercadolibre.data.models.MyResponse
  * @author Axel Sanchez
  */
 @Database(
-    entities = [MyResponse.Producto::class],
+    entities = [MyResponse.Product::class],
     version = 1
 )
 @TypeConverters(Converters::class)
