@@ -7,8 +7,8 @@ import com.example.mercadolibre.data.service.BASE_URL
 import com.example.mercadolibre.data.service.ConnectToApi
 import com.example.mercadolibre.domain.DetailsUseCase
 import com.example.mercadolibre.domain.SearchUseCase
-import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
-import com.example.mercadolibre.viewmodel.SearchViewModelFactory
+import com.example.mercadolibre.viewmodel.DetailsViewModel
+import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
@@ -26,12 +26,12 @@ val moduleApp = module{
         .build() }
     single { (get() as Retrofit).create(ApiService::class.java) }
     single { SearchUseCase() }
-    single { SearchViewModelFactory(get()) }
+    single { SearchViewModel.SearchViewModelFactory(get()) }
     single { ConnectToApi() }
     single { Room
         .databaseBuilder(androidContext(), Database::class.java, "mercadoLibreDB.db3")
         .build() }
     single { DetailsUseCase() }
-    single { DetailsViewModelFactory(get()) }
+    single { DetailsViewModel.DetailsViewModelFactory(get()) }
     single { Gson() }
 }

@@ -20,7 +20,6 @@ import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.ui.adapter.ProductAdapter
 import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.viewmodel.SearchViewModel
-import com.example.mercadolibre.viewmodel.SearchViewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -32,7 +31,7 @@ const val ARG_QUERY = "query"
  */
 class SearchFragment : BaseFragment() {
 
-    private val viewModelFactory: SearchViewModelFactory by inject()
+    private val viewModelFactory: SearchViewModel.SearchViewModelFactory by inject()
     private val viewModel: SearchViewModel by lazy {
         ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(SearchViewModel::class.java)

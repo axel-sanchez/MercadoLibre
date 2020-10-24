@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.ActivityDetailsBinding
 import com.example.mercadolibre.viewmodel.DetailsViewModel
-import com.example.mercadolibre.viewmodel.DetailsViewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -26,7 +25,7 @@ class DetailsActivity: AppCompatActivity() {
     var idProducto = ""
     private lateinit var binding: ActivityDetailsBinding
 
-    private val viewModelFactory: DetailsViewModelFactory by inject()
+    private val viewModelFactory: DetailsViewModel.DetailsViewModelFactory by inject()
     private val viewModel: DetailsViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory)
             .get(DetailsViewModel::class.java)
