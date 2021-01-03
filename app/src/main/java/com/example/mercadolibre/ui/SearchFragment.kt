@@ -64,9 +64,7 @@ class SearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
-            viewModel.getSearch(query)
-        }
+        viewModel.getSearch(query)
 
         setUpObserver()
     }

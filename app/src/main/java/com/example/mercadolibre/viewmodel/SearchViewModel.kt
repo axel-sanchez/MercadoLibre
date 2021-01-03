@@ -1,11 +1,9 @@
 package com.example.mercadolibre.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.domain.SearchUseCase
+import kotlinx.coroutines.launch
 
 /**
  * View model de [SearchFragment]
@@ -19,8 +17,10 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
         listData.value = listProducto
     }
 
-    suspend fun getSearch(query: String) {
-        setListData(searchUseCase.getSearch(query))
+    fun getSearch(query: String) {
+        viewModelScope.launch {
+            setListData(searchUseCase.getSearch(query))
+        }
     }
 
     fun getSearchLiveData(): LiveData<List<Product?>?> {
