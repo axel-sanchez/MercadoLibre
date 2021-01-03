@@ -71,28 +71,27 @@ class SearchFragment : BaseFragment() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setUpObserver() {
-        val myObserver = Observer<List<Product?>?> {
-            it?.let { products ->
-                binding.progress.cancelAnimation()
-                binding.progress.hide()
-                if (products.isNotEmpty()) {
-                    binding.emptyState.hide()
-                    binding.recyclerview.show()
-                    setAdapter(products)
-                } else{
+        viewModel.getSearchLiveData()
+            .observe(viewLifecycleOwner, {
+                it?.let { products ->
+                    binding.progress.cancelAnimation()
+                    binding.progress.hide()
+                    if (products.isNotEmpty()) {
+                        binding.emptyState.hide()
+                        binding.recyclerview.show()
+                        setAdapter(products)
+                    } else{
+                        binding.emptyState.show()
+                        binding.recyclerview.hide()
+                    }
+                }?: kotlin.run {
+                    binding.progress.cancelAnimation()
+                    binding.progress.hide()
                     binding.emptyState.show()
                     binding.recyclerview.hide()
+                    Toast.makeText(requireContext(), "Falló la búsqueda", Toast.LENGTH_SHORT).show()
                 }
-            }?: kotlin.run {
-                binding.progress.cancelAnimation()
-                binding.progress.hide()
-                binding.emptyState.show()
-                binding.recyclerview.hide()
-                Toast.makeText(requireContext(), "Falló la búsqueda", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.getSearchLiveData()
-            .observe(viewLifecycleOwner, myObserver)
+            })
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
