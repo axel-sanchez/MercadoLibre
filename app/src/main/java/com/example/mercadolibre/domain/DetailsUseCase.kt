@@ -15,13 +15,9 @@ class DetailsUseCase: KoinComponent{
 
     private val room: Database by inject()
 
-    /**
-     * Busco en la base de datos un producto
-     * @return devuelve un [Producto]
-     */
-    suspend fun getLocalProduct(id: String): MyResponse.Product? {
+    suspend fun getProductByIdFromLocalDataBase(id: String): MyResponse.Product? {
         return try {
-            room.productDao().getProduct(id)
+            room.productDao().getProductByIdFromLocalDataBase(id)
         } catch (e: Exception){
             Log.e("DetailsUseCase", "Falló la petición a la base de datos local")
             null

@@ -20,7 +20,7 @@ class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel()
     }
 
     suspend fun getLocalProduct(id: String) {
-        setListData(detailsUseCase.getLocalProduct(id))
+        setListData(detailsUseCase.getProductByIdFromLocalDataBase(id))
     }
 
     fun getLocalProductLiveData(): LiveData<MyResponse.Product?> {

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.ItemProductBinding
 
@@ -28,18 +29,18 @@ class ProductAdapter(
 
                 product.title?.let { title ->
                     binding.title.text = title
-                }?: kotlin.run { binding.title.visibility = View.GONE }
+                }?: kotlin.run { binding.title.hide() }
 
                 product.price?.let { price ->
                     binding.price.text = "$$price"
-                }?: kotlin.run { binding.price.visibility = View.GONE }
+                }?: kotlin.run { binding.price.hide() }
 
                 product.thumbnail?.let { urlImage ->
                     if(urlImage.isNotEmpty())
                         Glide.with(itemView.context)
                             .load(urlImage)
                             .into(binding.image)
-                }?: kotlin.run { binding.image.visibility = View.GONE }
+                }?: kotlin.run { binding.image.hide() }
             }
         }
     }

@@ -1,13 +1,12 @@
 package com.example.mercadolibre.ui
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.mercadolibre.R
-import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.ui.interfaces.INavigationHost
 
 /**
@@ -16,8 +15,8 @@ import com.example.mercadolibre.ui.interfaces.INavigationHost
  */
 class MainActivity: AppCompatActivity(), INavigationHost {
 
-    private val INTERVAL = 2000 //2 segundos para salir
-    private var tiempoPrimerClick: Long = 0
+    private val interval = 2000 //2 segundos para salir
+    private var timeFirstClick: Long = 0
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,13 +57,11 @@ class MainActivity: AppCompatActivity(), INavigationHost {
         transaction.commit()
     }
 
-    override fun finish() {
-        supportFragmentManager.popBackStack()
-    }
+    override fun finish() { supportFragmentManager.popBackStack() }
 
     override fun onBackPressed() {
 
-        val f = supportFragmentManager.findFragmentById(R.id.container) as BaseFragment
+        val f = supportFragmentManager.findFragmentById(R.id.container) as Fragment
 
         if (supportFragmentManager.backStackEntryCount > 0) {
 
@@ -74,13 +71,13 @@ class MainActivity: AppCompatActivity(), INavigationHost {
                 super.onBackPressed()
             }
         } else{
-            if (tiempoPrimerClick + INTERVAL > System.currentTimeMillis()) {
+            if (timeFirstClick + interval > System.currentTimeMillis()) {
                 super.finish()
                 return
             } else {
-                Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.volver_a_presionar), Toast.LENGTH_SHORT).show()
             }
-            tiempoPrimerClick = System.currentTimeMillis()
+            timeFirstClick = System.currentTimeMillis()
         }
     }
 }

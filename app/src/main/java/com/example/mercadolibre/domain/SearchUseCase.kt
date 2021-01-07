@@ -15,20 +15,16 @@ class SearchUseCase : KoinComponent {
     private val api: ConnectToApi by inject()
     private val room: Database by inject()
 
-    /**
-     * Hago una busqueda localmente y si no hay productos llamo a la api
-     * @return devuelve un listado de [Product]
-     */
-    suspend fun getSearch(query: String): List<Product?>? {
+    suspend fun getProductsBySearch(query: String): List<Product?>? {
         try {
-            val localProducts = room.productDao().getProductFromSearch(query)
+            val localProducts = room.productDao().getProductBySearchFromLocalDataBase(query)
             if (localProducts.isNotEmpty()) return localProducts
         } catch (e: java.lang.Exception) {
             Log.e("SearchUseCase", "Falló al buscar los productos de la base de datos local vinculados con una búsqueda")
             e.printStackTrace()
         }
 
-        val listProductos = api.getSearch(query).value
+        val listProductos = api.searchProductsByNameFromServer(query).value
 
         listProductos?.let { listado ->
             for (producto in listado) {
@@ -36,7 +32,7 @@ class SearchUseCase : KoinComponent {
                     try {
                         producto.search = query
                         room.productDao()
-                            .insert(it)
+                            .insertProductInLocalDataBase(it)
                     } catch (e: Exception) {
                         Log.e("SearchUseCase", "Falló al insertar un producto a la base de datos")
                         e.printStackTrace()

@@ -12,11 +12,6 @@ import java.util.*
  * */
 object NetworkHelper {
 
-    /**
-     * Función para saber si tenemos conexión a internet
-     * @param [context] recibe el contexto
-     * @return devuelve true si hay conexión
-     **/
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun isOnline(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

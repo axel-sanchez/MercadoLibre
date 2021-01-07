@@ -11,16 +11,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import com.example.mercadolibre.databinding.FragmentMainBinding
 import com.example.mercadolibre.helpers.NetworkHelper
-import com.example.mercadolibre.ui.customs.BaseFragment
 import com.example.mercadolibre.ui.interfaces.INavigationHost
+import com.example.mercadolibre.ui.interfaces.IOnBackPressFragment
 
 /**
  * Primer fragment en mostrarse en la aplicación y que sirve para realizar la búsqueda de productos
  * @author Axel Sanchez
  */
-class MainFragment: BaseFragment() {
+class MainFragment: Fragment(), IOnBackPressFragment {
 
     private var fragmentMainBinding: FragmentMainBinding? = null
     private val binding get() = fragmentMainBinding!!

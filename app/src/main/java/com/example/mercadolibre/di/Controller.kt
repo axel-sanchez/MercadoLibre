@@ -3,10 +3,10 @@ package com.example.mercadolibre.di
 import androidx.room.Room
 import com.example.mercadolibre.data.room.Database
 import com.example.mercadolibre.data.service.ApiService
-import com.example.mercadolibre.data.service.BASE_URL
 import com.example.mercadolibre.data.service.ConnectToApi
 import com.example.mercadolibre.domain.DetailsUseCase
 import com.example.mercadolibre.domain.SearchUseCase
+import com.example.mercadolibre.helpers.BASE_URL
 import com.example.mercadolibre.viewmodel.DetailsViewModel
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import com.google.gson.Gson

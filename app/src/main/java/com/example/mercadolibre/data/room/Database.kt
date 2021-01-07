@@ -15,5 +15,5 @@ import com.example.mercadolibre.data.models.MyResponse
 )
 @TypeConverters(Converters::class)
 abstract class Database : RoomDatabase() {
-    abstract fun productDao(): ProductoDao
+    abstract fun productDao(): ProductDao
 }

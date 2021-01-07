@@ -5,4 +5,5 @@
     <string name="free_shipping">Envio Gratis</string>
     <string name="vendedor">VENDEDOR</string>
     <string name="agotado">AGOTADO</string>
+    <string name="volver_a_presionar">Vuelve a presionar para salir</string>
 </resources>

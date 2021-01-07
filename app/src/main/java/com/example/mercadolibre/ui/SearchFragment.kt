@@ -10,17 +10,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mercadolibre.data.models.MyResponse.Product
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mercadolibre.common.hide
+import com.example.mercadolibre.common.show
+import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.ui.adapter.ProductAdapter
-import com.example.mercadolibre.ui.customs.BaseFragment
+import com.example.mercadolibre.ui.interfaces.IOnBackPressFragment
 import com.example.mercadolibre.viewmodel.SearchViewModel
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 const val ARG_QUERY = "query"
@@ -29,7 +29,7 @@ const val ARG_QUERY = "query"
  * Fragment que contiene un recyclerview de productos obtenidos de una búsqueda
  * @author Axel Sanchez
  */
-class SearchFragment : BaseFragment() {
+class SearchFragment : Fragment(), IOnBackPressFragment {
 
     private val viewModelFactory: SearchViewModel.SearchViewModelFactory by inject()
     private val viewModel: SearchViewModel by lazy {

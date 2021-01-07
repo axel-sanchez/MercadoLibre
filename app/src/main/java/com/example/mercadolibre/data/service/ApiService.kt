@@ -10,11 +10,6 @@ import retrofit2.http.Query
  * @author Axel Sanchez
  */
 interface ApiService {
-    /**
-     * Api que devuelve los productos que correspondan con la búsqueda ingresada
-     * @param [query] búsqueda ingresada
-     * @return devuelve un objeto Response (de retrofit) que contiene [MyResponse]
-     */
     @GET("search")
-    suspend fun search(@Query("q") query: String): Response<MyResponse?>
+    suspend fun searchProductsByNameFromServer(@Query("q") query: String): Response<MyResponse?>
 }

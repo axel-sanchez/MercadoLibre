@@ -7,8 +7,6 @@ import org.koin.standalone.inject
 import java.lang.Exception
 import com.example.mercadolibre.data.models.MyResponse.Product
 
-const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
-
 /**
  * Esta clase es la encargada de conectarse a la api
  * @author Axel Sanchez
@@ -16,15 +14,10 @@ const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
 class ConnectToApi : KoinComponent {
     private val service: ApiService by inject()
 
-    /**
-     * Esta función es la encargada de retornar la búsqueda de productos
-     * @param [query] es la búsqueda
-     * @return devuelve un mutableLiveData que contiene un listado de [Product]
-     */
-    suspend fun getSearch(query: String): MutableLiveData<List<Product?>> {
+    suspend fun searchProductsByNameFromServer(query: String): MutableLiveData<List<Product?>> {
         val mutableLiveData = MutableLiveData<List<Product?>>()
         try {
-            val response = service.search(query)
+            val response = service.searchProductsByNameFromServer(query)
             if (response.isSuccessful) {
                 Log.i("Successful Response", response.body()
                     ?.let { it.toString() } ?: "")

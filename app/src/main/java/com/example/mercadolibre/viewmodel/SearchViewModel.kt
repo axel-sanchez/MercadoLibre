@@ -19,7 +19,7 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
 
     fun getSearch(query: String) {
         viewModelScope.launch {
-            setListData(searchUseCase.getSearch(query))
+            setListData(searchUseCase.getProductsBySearch(query))
         }
     }
 

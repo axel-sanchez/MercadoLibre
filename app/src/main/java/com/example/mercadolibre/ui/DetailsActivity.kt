@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.mercadolibre.common.hide
+import com.example.mercadolibre.common.show
 import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.ActivityDetailsBinding
 import com.example.mercadolibre.viewmodel.DetailsViewModel
@@ -132,14 +134,4 @@ class DetailsActivity: AppCompatActivity() {
     override fun onBackPressed() {
         finishAfterTransition()
     }
-
-    /**
-     * Extension Function que permite mostrar cualquier vista
-     */
-    private fun View.show() { this.visibility = View.VISIBLE }
-
-    /**
-     * Extension Function que permite ocultar cualquier vista
-     */
-    private fun View.hide() { this.visibility = View.GONE }
 }

@@ -28,7 +28,7 @@ class ConnectToApiTest {
     private suspend fun foo() {
         coroutineScope {
             launch {
-                assertTrue(service.search("Lenovo").isSuccessful)
+                assertTrue(service.searchProductsByNameFromServer("Lenovo").isSuccessful)
             }
         }
     }
