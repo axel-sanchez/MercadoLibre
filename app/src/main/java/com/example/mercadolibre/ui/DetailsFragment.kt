@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.common.show
@@ -24,7 +25,7 @@ import org.koin.android.ext.android.inject
  */
 class DetailsFragment: Fragment() {
 
-    var idProduct = ""
+    var idProduct: String? = ""
 
     private val viewModelFactory: DetailsViewModel.DetailsViewModelFactory by inject()
     private val viewModel: DetailsViewModel by lazy {
@@ -49,17 +50,21 @@ class DetailsFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        idProduct = DetailsFragmentArgs.fromBundle(requireArguments()).idProduct
+        idProduct = arguments?.getString("idProduct")
 
-        viewModel.getLocalProduct(idProduct)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+
+        idProduct?.let {
+            viewModel.getLocalProduct(it)
+        }
 
         setUpViewModel()
     }
 
     private fun setUpViewModel() {
-        val myObserver = Observer<MyResponse.Product?> { producto ->
+        val myObserver = Observer<MyResponse.Product?> { product ->
 
-            producto?.let {
+            product?.let {
                 it.title?.let { title ->
                     binding.title.text = title
                 } ?: binding.title.hide()

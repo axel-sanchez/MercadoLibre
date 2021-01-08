@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -117,8 +119,11 @@ class SearchFragment : Fragment(), IOnBackPressFragment {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     val itemClick = { product: Product?, imageView: ImageView ->
         product?.let {
-            val action = SearchFragmentDirections.toDetailsFragment(it.id)
-            findNavController().navigate(action)
+            val bundle = bundleOf("idProduct" to it.id)
+            val extras = FragmentNavigatorExtras(
+                imageView to "imageView"
+            )
+            findNavController().navigate(R.id.toDetailsFragment, bundle, null, extras)
         }
     }
 
