@@ -3,29 +3,28 @@ package com.example.mercadolibre.ui
 import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.common.show
-import com.example.mercadolibre.data.models.MyResponse.Product
-import com.example.mercadolibre.databinding.ActivityDetailsBinding
+import com.example.mercadolibre.data.models.MyResponse
+import com.example.mercadolibre.databinding.FragmentDetailsBinding
 import com.example.mercadolibre.viewmodel.DetailsViewModel
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 /**
  * Fragment para mostrar los datos de un producto
  * @author Axel Sanchez
  */
-class DetailsActivity: AppCompatActivity() {
+class DetailsFragment: Fragment() {
 
-    var idProducto = ""
-    private lateinit var binding: ActivityDetailsBinding
+    var idProduct = ""
 
     private val viewModelFactory: DetailsViewModel.DetailsViewModelFactory by inject()
     private val viewModel: DetailsViewModel by lazy {
@@ -33,35 +32,41 @@ class DetailsActivity: AppCompatActivity() {
             .get(DetailsViewModel::class.java)
     }
 
+    private var fragmentMyBinding: FragmentDetailsBinding? = null
+    private val binding get() = fragmentMyBinding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        fragmentMyBinding = FragmentDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fragmentMyBinding = null
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailsBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
 
-        binding.image.transitionName = "search"
+        idProduct = DetailsFragmentArgs.fromBundle(requireArguments()).idProduct
 
-        idProducto = intent.extras!!.getString("id")?.let { it }?:""
-
-        lifecycleScope.launch {
-            viewModel.getLocalProduct(idProducto)
-        }
+        viewModel.getLocalProduct(idProduct)
 
         setUpViewModel()
     }
 
     private fun setUpViewModel() {
-        val myObserver = Observer<Product?> { producto ->
+        val myObserver = Observer<MyResponse.Product?> { producto ->
 
             producto?.let {
                 it.title?.let { title ->
                     binding.title.text = title
                 } ?: binding.title.hide()
 
-                it.thumbnail?.let { urlImagen ->
+                it.thumbnail?.let { urlImage ->
                     Glide.with(this)
-                        .load(urlImagen)
+                        .load(urlImage)
                         .into(binding.image)
                 } ?: binding.image.hide()
 
@@ -128,10 +133,5 @@ class DetailsActivity: AppCompatActivity() {
 
         }
         viewModel.getLocalProductLiveData().observe(this, myObserver)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onBackPressed() {
-        finishAfterTransition()
     }
 }

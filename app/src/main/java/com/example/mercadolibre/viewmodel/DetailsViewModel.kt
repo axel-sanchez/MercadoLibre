@@ -1,11 +1,9 @@
 package com.example.mercadolibre.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.example.mercadolibre.data.models.MyResponse
 import com.example.mercadolibre.domain.DetailsUseCase
+import kotlinx.coroutines.launch
 
 /**
  * View model de [DetailsActivity]
@@ -19,8 +17,10 @@ class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel()
         listData.postValue(product)
     }
 
-    suspend fun getLocalProduct(id: String) {
-        setListData(detailsUseCase.getProductByIdFromLocalDataBase(id))
+    fun getLocalProduct(id: String) {
+        viewModelScope.launch {
+            setListData(detailsUseCase.getProductByIdFromLocalDataBase(id))
+        }
     }
 
     fun getLocalProductLiveData(): LiveData<MyResponse.Product?> {

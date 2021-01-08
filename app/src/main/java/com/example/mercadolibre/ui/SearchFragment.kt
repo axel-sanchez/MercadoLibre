@@ -12,8 +12,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mercadolibre.R
 import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.common.show
 import com.example.mercadolibre.data.models.MyResponse.Product
@@ -55,9 +57,8 @@ class SearchFragment : Fragment(), IOnBackPressFragment {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            query = it.getString(ARG_QUERY, "")
-        }
+
+        query = SearchFragmentArgs.fromBundle(requireArguments()).query
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -89,7 +90,7 @@ class SearchFragment : Fragment(), IOnBackPressFragment {
                     binding.progress.hide()
                     binding.emptyState.show()
                     binding.recyclerview.hide()
-                    Toast.makeText(requireContext(), "Falló la búsqueda", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.failSearch), Toast.LENGTH_SHORT).show()
                 }
             })
     }
@@ -113,16 +114,11 @@ class SearchFragment : Fragment(), IOnBackPressFragment {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP) val itemClick = { producto: Product?, imageView: ImageView ->
-        producto?.let {
-            val intent = Intent(context, DetailsActivity::class.java)
-            intent.putExtra("id", it.id)
-            val options = ActivityOptions.makeSceneTransitionAnimation(
-                activity,
-                imageView,
-                "search"
-            )
-            startActivity(intent, options.toBundle())
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    val itemClick = { product: Product?, imageView: ImageView ->
+        product?.let {
+            val action = SearchFragmentDirections.toDetailsFragment(it.id)
+            findNavController().navigate(action)
         }
     }
 
@@ -146,13 +142,4 @@ class SearchFragment : Fragment(), IOnBackPressFragment {
     }
 
     override fun onBackPressFragment() = false
-
-    companion object {
-        @JvmStatic
-        fun newInstance(query: String) = SearchFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_QUERY, query)
-            }
-        }
-    }
 }

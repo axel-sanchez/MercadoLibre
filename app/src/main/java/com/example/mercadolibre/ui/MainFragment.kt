@@ -12,9 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.mercadolibre.R
 import com.example.mercadolibre.databinding.FragmentMainBinding
 import com.example.mercadolibre.helpers.NetworkHelper
-import com.example.mercadolibre.ui.interfaces.INavigationHost
 import com.example.mercadolibre.ui.interfaces.IOnBackPressFragment
 
 /**
@@ -41,7 +42,8 @@ class MainFragment: Fragment(), IOnBackPressFragment {
                 if (id == EditorInfo.IME_ACTION_SEARCH || id == EditorInfo.IME_NULL) {
 
                     if (NetworkHelper.isOnline(requireContext())) {
-                        (activity as INavigationHost).replaceTo(SearchFragment.newInstance(binding.search.text.toString()), true)
+                        val action = MainFragmentDirections.toSearchFragment(binding.search.text.toString())
+                        findNavController().navigate(action)
                     } else {
                         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.hideSoftInputFromWindow(binding.search.windowToken, 0)
