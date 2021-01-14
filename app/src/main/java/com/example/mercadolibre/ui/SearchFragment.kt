@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -20,11 +21,10 @@ import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.common.show
 import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.FragmentSearchBinding
+import com.example.mercadolibre.domain.SearchUseCase
 import com.example.mercadolibre.ui.adapter.ProductAdapter
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import org.koin.android.ext.android.inject
-
-const val ARG_QUERY = "query"
 
 /**
  * Fragment que contiene un recyclerview de productos obtenidos de una búsqueda
@@ -32,10 +32,11 @@ const val ARG_QUERY = "query"
  */
 class SearchFragment : Fragment() {
 
-    private val viewModelFactory: SearchViewModel.SearchViewModelFactory by inject()
-    private val viewModel: SearchViewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
-    }
+    private val searchUseCase: SearchUseCase by inject()
+
+    private val viewModel: SearchViewModel by viewModels(
+        factoryProducer = { SearchViewModel.SearchViewModelFactory(searchUseCase, query) }
+    )
 
     private lateinit var query: String
 
@@ -62,8 +63,6 @@ class SearchFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getSearch(query)
 
         setUpObserver()
     }

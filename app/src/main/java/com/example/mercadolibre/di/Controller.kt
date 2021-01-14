@@ -26,7 +26,6 @@ val moduleApp = module{
         .build() }
     single { (get() as Retrofit).create(ApiService::class.java) }
     single { SearchUseCase() }
-    single { SearchViewModel.SearchViewModelFactory(get()) }
     single { ConnectToApi() }
     single { Room
         .databaseBuilder(androidContext(), Database::class.java, "mercadoLibreDB.db3")

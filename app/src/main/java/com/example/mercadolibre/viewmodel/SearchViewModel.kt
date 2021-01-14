@@ -9,15 +9,19 @@ import kotlinx.coroutines.launch
  * View model de [SearchFragment]
  * @author Axel Sanchez
  */
-class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
+class SearchViewModel(private val searchUseCase: SearchUseCase, private val query: String) : ViewModel() {
 
-    private val listData = MutableLiveData<List<Product?>?>()
+    private val listData: MutableLiveData<List<Product?>?> by lazy {
+        MutableLiveData<List<Product?>?>().also {
+            getSearch()
+        }
+    }
 
     private fun setListData(listProduct: List<Product?>?) {
         listData.value = listProduct
     }
 
-    fun getSearch(query: String) {
+    private fun getSearch() {
         viewModelScope.launch {
             setListData(searchUseCase.getProductsBySearch(query))
         }
@@ -27,10 +31,10 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
         return listData
     }
 
-    class SearchViewModelFactory(private val searchUseCase: SearchUseCase) : ViewModelProvider.Factory {
+    class SearchViewModelFactory(private val searchUseCase: SearchUseCase, private val query: String) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return modelClass.getConstructor(SearchUseCase::class.java).newInstance(searchUseCase)
+            return modelClass.getConstructor(SearchUseCase::class.java, String::class.java).newInstance(searchUseCase, query)
         }
     }
 }
