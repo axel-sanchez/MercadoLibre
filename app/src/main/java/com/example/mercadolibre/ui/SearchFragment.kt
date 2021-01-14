@@ -34,8 +34,7 @@ class SearchFragment : Fragment() {
 
     private val viewModelFactory: SearchViewModel.SearchViewModelFactory by inject()
     private val viewModel: SearchViewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(SearchViewModel::class.java)
+        ViewModelProviders.of(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
     }
 
     private lateinit var query: String

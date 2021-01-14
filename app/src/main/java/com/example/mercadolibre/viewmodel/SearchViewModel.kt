@@ -13,8 +13,8 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
 
     private val listData = MutableLiveData<List<Product?>?>()
 
-    private fun setListData(listProducto: List<Product?>?) {
-        listData.value = listProducto
+    private fun setListData(listProduct: List<Product?>?) {
+        listData.value = listProduct
     }
 
     fun getSearch(query: String) {
@@ -27,10 +27,6 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
         return listData
     }
 
-    /**
-     * Factory de nuestro [SearchViewModel]
-     * @author Axel Sanchez
-     */
     class SearchViewModelFactory(private val searchUseCase: SearchUseCase) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
