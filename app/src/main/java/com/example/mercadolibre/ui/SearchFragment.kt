@@ -1,7 +1,5 @@
 package com.example.mercadolibre.ui
 
-import android.app.ActivityOptions
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +21,6 @@ import com.example.mercadolibre.common.show
 import com.example.mercadolibre.data.models.MyResponse.Product
 import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.ui.adapter.ProductAdapter
-import com.example.mercadolibre.ui.interfaces.IOnBackPressFragment
 import com.example.mercadolibre.viewmodel.SearchViewModel
 import org.koin.android.ext.android.inject
 
@@ -33,7 +30,7 @@ const val ARG_QUERY = "query"
  * Fragment que contiene un recyclerview de productos obtenidos de una búsqueda
  * @author Axel Sanchez
  */
-class SearchFragment : Fragment(), IOnBackPressFragment {
+class SearchFragment : Fragment() {
 
     private val viewModelFactory: SearchViewModel.SearchViewModelFactory by inject()
     private val viewModel: SearchViewModel by lazy {
@@ -145,6 +142,4 @@ class SearchFragment : Fragment(), IOnBackPressFragment {
         super.onDestroyView()
         fragmentSearchBinding = null
     }
-
-    override fun onBackPressFragment() = false
 }

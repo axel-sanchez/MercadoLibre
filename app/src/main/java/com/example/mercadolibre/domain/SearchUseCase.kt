@@ -24,15 +24,14 @@ class SearchUseCase : KoinComponent {
             e.printStackTrace()
         }
 
-        val listProductos = api.searchProductsByNameFromServer(query).value
+        val listProducts = api.searchProductsByNameFromServer(query).value
 
-        listProductos?.let { listado ->
-            for (producto in listado) {
-                producto?.let {
+        listProducts?.let { list ->
+            for (product in list) {
+                product?.let {
                     try {
-                        producto.search = query
-                        room.productDao()
-                            .insertProductInLocalDataBase(it)
+                        it.search = query
+                        room.productDao().insertProductInLocalDataBase(it)
                     } catch (e: Exception) {
                         Log.e("SearchUseCase", "Falló al insertar un producto a la base de datos")
                         e.printStackTrace()
@@ -40,6 +39,6 @@ class SearchUseCase : KoinComponent {
                 }
             }
         }
-        return listProductos
+        return listProducts
     }
 }

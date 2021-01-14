@@ -19,10 +19,8 @@ class ConnectToApi : KoinComponent {
         try {
             val response = service.searchProductsByNameFromServer(query)
             if (response.isSuccessful) {
-                Log.i("Successful Response", response.body()
-                    ?.let { it.toString() } ?: "")
-                mutableLiveData.value = response.body()
-                    ?.let { it.results } ?: listOf()
+                Log.i("Successful Response", response.body()?.let { it.toString() } ?: "")
+                mutableLiveData.value = response.body()?.let { it.results } ?: listOf()
             } else {
                 Log.i("Error Response", response.errorBody().toString())
                 mutableLiveData.value = listOf()

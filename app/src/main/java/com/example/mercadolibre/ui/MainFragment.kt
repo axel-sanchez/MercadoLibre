@@ -13,16 +13,14 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.mercadolibre.R
 import com.example.mercadolibre.databinding.FragmentMainBinding
 import com.example.mercadolibre.helpers.NetworkHelper
-import com.example.mercadolibre.ui.interfaces.IOnBackPressFragment
 
 /**
  * Primer fragment en mostrarse en la aplicación y que sirve para realizar la búsqueda de productos
  * @author Axel Sanchez
  */
-class MainFragment: Fragment(), IOnBackPressFragment {
+class MainFragment: Fragment() {
 
     private var fragmentMainBinding: FragmentMainBinding? = null
     private val binding get() = fragmentMainBinding!!
@@ -62,6 +60,4 @@ class MainFragment: Fragment(), IOnBackPressFragment {
         super.onDestroyView()
         fragmentMainBinding = null
     }
-
-    override fun onBackPressFragment() = false
 }
