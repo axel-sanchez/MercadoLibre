@@ -9,15 +9,19 @@ import kotlinx.coroutines.launch
  * View model de [DetailsActivity]
  * @author Axel Sanchez
  */
-class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel() {
+class DetailsViewModel(private val detailsUseCase: DetailsUseCase, private val idProduct: String) : ViewModel() {
 
-    private val listData = MutableLiveData<MyResponse.Product?>()
+    private val listData: MutableLiveData<MyResponse.Product?> by lazy {
+        MutableLiveData<MyResponse.Product?>().also {
+            getLocalProduct(idProduct)
+        }
+    }
 
     private fun setListData(product: MyResponse.Product?) {
         listData.postValue(product)
     }
 
-    fun getLocalProduct(id: String) {
+    private fun getLocalProduct(id: String) {
         viewModelScope.launch {
             setListData(detailsUseCase.getProductByIdFromLocalDataBase(id))
         }
@@ -27,15 +31,11 @@ class DetailsViewModel(private val detailsUseCase: DetailsUseCase) : ViewModel()
         return listData
     }
 
-    /**
-     * Factory de nuestro [DetailsViewModel]
-     * @author Axel Sanchez
-     */
-    class DetailsViewModelFactory(private val detailsUseCase: DetailsUseCase) : ViewModelProvider.Factory {
+    class DetailsViewModelFactory(private val detailsUseCase: DetailsUseCase, private val idProduct: String) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return modelClass.getConstructor(DetailsUseCase::class.java)
-                .newInstance(detailsUseCase)
+            return modelClass.getConstructor(DetailsUseCase::class.java, String::class.java)
+                .newInstance(detailsUseCase, idProduct)
         }
     }
 }

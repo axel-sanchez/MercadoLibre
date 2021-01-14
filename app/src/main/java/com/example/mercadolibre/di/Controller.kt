@@ -31,6 +31,5 @@ val moduleApp = module{
         .databaseBuilder(androidContext(), Database::class.java, "mercadoLibreDB.db3")
         .build() }
     single { DetailsUseCase() }
-    single { DetailsViewModel.DetailsViewModelFactory(get()) }
     single { Gson() }
 }
