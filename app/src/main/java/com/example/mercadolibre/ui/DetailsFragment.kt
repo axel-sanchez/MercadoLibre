@@ -16,17 +16,22 @@ import com.example.mercadolibre.common.show
 import com.example.mercadolibre.databinding.FragmentDetailsBinding
 import com.example.mercadolibre.domain.DetailsUseCase
 import com.example.mercadolibre.viewmodel.DetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 /**
  * Fragment para mostrar los datos de un producto
  * @author Axel Sanchez
  */
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
     var idProduct: String? = ""
 
-    private val detailsUseCase: DetailsUseCase by inject()
+    @Inject
+    lateinit var detailsUseCase: DetailsUseCase
+
     private val viewModel: DetailsViewModel by viewModels(
         factoryProducer = { DetailsViewModel.DetailsViewModelFactory(detailsUseCase, idProduct?:"") }
     )

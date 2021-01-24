@@ -23,15 +23,19 @@ import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.domain.SearchUseCase
 import com.example.mercadolibre.ui.adapter.ProductAdapter
 import com.example.mercadolibre.viewmodel.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 /**
  * Fragment que contiene un recyclerview de productos obtenidos de una búsqueda
  * @author Axel Sanchez
  */
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val searchUseCase: SearchUseCase by inject()
+    @Inject
+    lateinit var searchUseCase: SearchUseCase
 
     private val viewModel: SearchViewModel by viewModels(
         factoryProducer = { SearchViewModel.SearchViewModelFactory(searchUseCase, query) }

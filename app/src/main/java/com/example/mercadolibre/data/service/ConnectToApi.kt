@@ -6,15 +6,15 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import java.lang.Exception
 import com.example.mercadolibre.data.models.MyResponse.Product
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Esta clase es la encargada de conectarse a la api
  * @author Axel Sanchez
  */
-class ConnectToApi : KoinComponent {
-    private val service: ApiService by inject()
-
-    suspend fun searchProductsByNameFromServer(query: String): MutableLiveData<List<Product?>> {
+class ConnectToApi(private val service: ApiService) : KoinComponent {
+        suspend fun searchProductsByNameFromServer(query: String): MutableLiveData<List<Product?>> {
         val mutableLiveData = MutableLiveData<List<Product?>>()
         try {
             val response = service.searchProductsByNameFromServer(query)
