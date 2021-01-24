@@ -2,18 +2,15 @@ package com.example.mercadolibre.domain
 
 import android.util.Log
 import com.example.mercadolibre.data.models.MyResponse.Product
-import com.example.mercadolibre.data.room.Database
 import com.example.mercadolibre.data.room.ProductDao
 import com.example.mercadolibre.data.service.ConnectToApi
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import javax.inject.Inject
 
 /**
  * Caso de uso para [SearchViewModel]
  * @author Axel Sanchez
  */
-class SearchUseCase(private val api: ConnectToApi, private val database: ProductDao) : KoinComponent {
+class SearchUseCase @Inject constructor(private val api: ConnectToApi, private val database: ProductDao){
 
     suspend fun getProductsBySearch(query: String): List<Product?>? {
         try {

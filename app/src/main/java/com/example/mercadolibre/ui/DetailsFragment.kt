@@ -14,11 +14,8 @@ import com.bumptech.glide.Glide
 import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.common.show
 import com.example.mercadolibre.databinding.FragmentDetailsBinding
-import com.example.mercadolibre.domain.DetailsUseCase
 import com.example.mercadolibre.viewmodel.DetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.android.ext.android.inject
-import javax.inject.Inject
 
 /**
  * Fragment para mostrar los datos de un producto
@@ -29,12 +26,7 @@ class DetailsFragment : Fragment() {
 
     var idProduct: String? = ""
 
-    @Inject
-    lateinit var detailsUseCase: DetailsUseCase
-
-    private val viewModel: DetailsViewModel by viewModels(
-        factoryProducer = { DetailsViewModel.DetailsViewModelFactory(detailsUseCase, idProduct?:"") }
-    )
+    private val viewModel: DetailsViewModel by viewModels()
 
     private var fragmentMyBinding: FragmentDetailsBinding? = null
     private val binding get() = fragmentMyBinding!!
@@ -58,6 +50,7 @@ class DetailsFragment : Fragment() {
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
         idProduct?.let {
+            viewModel.setIdProduct(it)
             setUpViewModel()
         }
     }

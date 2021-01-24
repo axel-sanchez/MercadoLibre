@@ -3,10 +3,6 @@ package com.example.mercadolibre.data.room
 import androidx.room.TypeConverter
 import com.example.mercadolibre.data.models.MyResponse.Product.*
 import com.google.gson.Gson
-import dagger.hilt.android.AndroidEntryPoint
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
-import javax.inject.Inject
 
 private const val nullStr = "null"
 /** Convertidor de clases para la base de datos con room
