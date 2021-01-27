@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
     private var fragmentMainBinding: FragmentMainBinding? = null
     private val binding get() = fragmentMainBinding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         fragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
