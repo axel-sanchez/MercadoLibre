@@ -2,15 +2,15 @@ package com.example.mercadolibre.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.example.mercadolibre.data.models.MyResponse.Product
-import com.example.mercadolibre.domain.SearchUseCase
+import com.example.mercadolibre.data.models.ResponseDTO.Product
+import com.example.mercadolibre.domain.usecase.GetProductBySearchUseCase
 import kotlinx.coroutines.launch
 
 /**
  * View model de [SearchFragment]
  * @author Axel Sanchez
  */
-class SearchViewModel @ViewModelInject constructor(private val searchUseCase: SearchUseCase) : ViewModel() {
+class SearchViewModel @ViewModelInject constructor(private val getProductBySearchUseCase: GetProductBySearchUseCase) : ViewModel() {
 
     private var query: String = ""
     fun setQuery(newQuery: String){
@@ -29,7 +29,7 @@ class SearchViewModel @ViewModelInject constructor(private val searchUseCase: Se
 
     private fun getSearch() {
         viewModelScope.launch {
-            setListData(searchUseCase.getProductsBySearch(query))
+            setListData(getProductBySearchUseCase.call(query))
         }
     }
 

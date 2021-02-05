@@ -1,5 +1,6 @@
-package com.example.mercadolibre.data.service
+package com.example.mercadolibre.data.source
 
+import com.example.mercadolibre.helpers.BASE_URL
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * @author Axel Sanchez
  */
-class ConnectToApiTest {
+class ProductRemoteSourceImplTest {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -28,7 +29,7 @@ class ConnectToApiTest {
     private suspend fun foo() {
         coroutineScope {
             launch {
-                assertTrue(service.searchProductsByNameFromServer("Lenovo").isSuccessful)
+                assertTrue(service.searchProductsByName("Lenovo").isSuccessful)
             }
         }
     }

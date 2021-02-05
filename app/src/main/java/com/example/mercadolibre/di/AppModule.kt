@@ -2,12 +2,15 @@ package com.example.mercadolibre.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.mercadolibre.data.repository.ProductRepositoryImpl
 import com.example.mercadolibre.data.room.Database
 import com.example.mercadolibre.data.room.ProductDao
-import com.example.mercadolibre.data.service.ApiService
-import com.example.mercadolibre.data.service.ConnectToApi
-import com.example.mercadolibre.domain.DetailsUseCase
-import com.example.mercadolibre.domain.SearchUseCase
+import com.example.mercadolibre.data.source.*
+import com.example.mercadolibre.domain.repository.ProductRepository
+import com.example.mercadolibre.domain.usecase.GetProductByIdUseCase
+import com.example.mercadolibre.domain.usecase.GetProductByIdUseCaseImpl
+import com.example.mercadolibre.domain.usecase.GetProductBySearchUseCase
+import com.example.mercadolibre.domain.usecase.GetProductBySearchUseCaseImpl
 import com.example.mercadolibre.helpers.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -35,15 +38,23 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun getSearchUseCase(api: ConnectToApi, productDao: ProductDao) = SearchUseCase(api, productDao)
+    fun getSearchUseCase(repository: ProductRepository): GetProductBySearchUseCase = GetProductBySearchUseCaseImpl(repository)
 
     @Provides
     @Singleton
-    fun getApi(apiService: ApiService) = ConnectToApi(apiService)
+    fun getProductRemoteSource(apiService: ApiService): ProductRemoteSource = ProductRemoteSourceImpl(apiService)
 
     @Provides
     @Singleton
-    fun getDetailsUseCase(room: Database) = DetailsUseCase(room)
+    fun getProductLocalSource(database: ProductDao): ProductLocalSource = ProductLocalSourceImpl(database)
+
+    @Provides
+    @Singleton
+    fun getDetailsUseCase(repository: ProductRepository): GetProductByIdUseCase = GetProductByIdUseCaseImpl(repository)
+
+    @Provides
+    @Singleton
+    fun getProductRepository(productRemoteSource: ProductRemoteSource, productLocalSource: ProductLocalSource): ProductRepository = ProductRepositoryImpl(productRemoteSource, productLocalSource)
 
     @Provides
     @Singleton

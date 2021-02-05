@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
  * Clase encargada de almacenar la respuesta de la api para buscar productos
  * @author Axel Sanchez
  * */
-@Entity data class MyResponse(
+@Entity data class ResponseDTO(
     var available_filters: List<AvailableFilter?>? = null,
     var available_sorts: List<AvailableSort?>? = null,
     var filters: List<Filter?>? = null,

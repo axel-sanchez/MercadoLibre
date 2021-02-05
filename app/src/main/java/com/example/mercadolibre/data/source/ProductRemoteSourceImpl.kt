@@ -1,19 +1,27 @@
-package com.example.mercadolibre.data.service
+package com.example.mercadolibre.data.source
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.mercadolibre.data.models.MyResponse.Product
+import com.example.mercadolibre.data.models.ResponseDTO
+import com.example.mercadolibre.data.models.ResponseDTO.Product
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
 import javax.inject.Inject
+
+interface ProductRemoteSource {
+    suspend fun searchProductsByName(query: String): MutableLiveData<List<Product?>>
+}
 
 /**
  * Esta clase es la encargada de conectarse a la api
  * @author Axel Sanchez
  */
-class ConnectToApi @Inject constructor(private val service: ApiService) {
-        suspend fun searchProductsByNameFromServer(query: String): MutableLiveData<List<Product?>> {
+class ProductRemoteSourceImpl @Inject constructor(private val service: ApiService): ProductRemoteSource {
+    override suspend fun searchProductsByName(query: String): MutableLiveData<List<Product?>> {
         val mutableLiveData = MutableLiveData<List<Product?>>()
         try {
-            val response = service.searchProductsByNameFromServer(query)
+            val response = service.searchProductsByName(query)
             if (response.isSuccessful) {
                 Log.i("Successful Response", response.body()?.let { it.toString() } ?: "")
                 mutableLiveData.value = response.body()?.let { it.results } ?: listOf()
@@ -29,4 +37,9 @@ class ConnectToApi @Inject constructor(private val service: ApiService) {
         }
         return mutableLiveData
     }
+}
+
+interface ApiService {
+    @GET("search")
+    suspend fun searchProductsByName(@Query("q") query: String): Response<ResponseDTO?>
 }

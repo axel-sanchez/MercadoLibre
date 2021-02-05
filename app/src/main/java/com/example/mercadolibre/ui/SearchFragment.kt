@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mercadolibre.R
 import com.example.mercadolibre.common.hide
 import com.example.mercadolibre.common.show
-import com.example.mercadolibre.data.models.MyResponse.Product
+import com.example.mercadolibre.data.models.ResponseDTO.Product
 import com.example.mercadolibre.databinding.FragmentSearchBinding
 import com.example.mercadolibre.ui.adapter.ProductAdapter
 import com.example.mercadolibre.viewmodel.SearchViewModel

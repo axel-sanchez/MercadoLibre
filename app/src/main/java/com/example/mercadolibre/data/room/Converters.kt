@@ -1,7 +1,7 @@
 package com.example.mercadolibre.data.room
 
 import androidx.room.TypeConverter
-import com.example.mercadolibre.data.models.MyResponse.Product.*
+import com.example.mercadolibre.data.models.ResponseDTO.Product.*
 import com.google.gson.Gson
 
 private const val nullStr = "null"

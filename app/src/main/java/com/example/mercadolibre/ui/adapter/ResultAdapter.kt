@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mercadolibre.common.hide
-import com.example.mercadolibre.data.models.MyResponse.Product
+import com.example.mercadolibre.data.models.ResponseDTO.Product
 import com.example.mercadolibre.databinding.ItemProductBinding
 
 /**
