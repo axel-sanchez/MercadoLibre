@@ -14,7 +14,6 @@ interface ProductRemoteSource {
 }
 
 /**
- * Esta clase es la encargada de conectarse a la api
  * @author Axel Sanchez
  */
 class ProductRemoteSourceImpl @Inject constructor(private val service: ApiService): ProductRemoteSource {

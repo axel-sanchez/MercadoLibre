@@ -8,7 +8,7 @@ import java.lang.Exception
  */
 open class RepositoryException(private val messageException: String, cause: Throwable? = null): Exception(messageException, cause)
 
-class UiException(private val uiMessage: String): Exception(uiMessage)
-class ServerException(private val serverMessage: String, cause: Throwable? = null): RepositoryException(serverMessage, cause)
-class CacheException(private val cacheMessage: String, cause: Throwable? = null): RepositoryException(cacheMessage, cause)
+class UiException(val uiMessage: String = "Ui Exception"): Exception(uiMessage)
+class ServerException(private val serverMessage: String = "Server Exception", cause: Throwable? = null): RepositoryException(serverMessage, cause)
+class CacheException(private val cacheMessage: String = "Cache Exception", cause: Throwable? = null): RepositoryException(cacheMessage, cause)
 class NoConnectivityException: IOException("No Internet Connection")

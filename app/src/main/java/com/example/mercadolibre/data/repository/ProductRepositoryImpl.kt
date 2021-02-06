@@ -1,7 +1,7 @@
 package com.example.mercadolibre.data.repository
 
 import android.util.Log
-import com.example.mercadolibre.data.models.ResponseDTO
+import com.example.mercadolibre.data.models.ResponseDTO.*
 import com.example.mercadolibre.data.source.ProductLocalSource
 import com.example.mercadolibre.data.source.ProductRemoteSource
 import com.example.mercadolibre.domain.repository.ProductRepository
@@ -11,11 +11,11 @@ import javax.inject.Inject
  * @author Axel Sanchez
  */
 class ProductRepositoryImpl @Inject constructor(private val api: ProductRemoteSource, private val productLocalSource: ProductLocalSource): ProductRepository {
-    override suspend fun getProductById(id: String): ResponseDTO.Product? {
+    override suspend fun getProductById(id: String): Product? {
         return productLocalSource.getProductById(id)
     }
 
-    override suspend fun getProductBySearch(query: String): List<ResponseDTO.Product?>? {
+    override suspend fun getProductBySearch(query: String): List<Product?> {
         try {
             val localProducts = productLocalSource.getProductBySearch(query)
             if (localProducts.isNotEmpty()) return localProducts
@@ -39,6 +39,6 @@ class ProductRepositoryImpl @Inject constructor(private val api: ProductRemoteSo
                 }
             }
         }
-        return listProducts
+        return listProducts?: listOf()
     }
 }
