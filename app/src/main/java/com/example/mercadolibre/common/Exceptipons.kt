@@ -6,7 +6,7 @@ import java.lang.Exception
 /**
  * @author Axel Sanchez
  */
-open class RepositoryException(private val messageException: String, cause: Throwable? = null): Exception(messageException, cause)
+open class RepositoryException(private val messageException: String = "Repository Exception", cause: Throwable? = null): Exception(messageException, cause)
 
 class UiException(val uiMessage: String = "Ui Exception"): Exception(uiMessage)
 class ServerException(private val serverMessage: String = "Server Exception", cause: Throwable? = null): RepositoryException(serverMessage, cause)
